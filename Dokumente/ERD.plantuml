@@ -1,0 +1,78 @@
+AberGym PlantUML ERD
+
+@startuml
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+
+entity "Person" as person {
+  *Id : number <<generated>>
+  --
+  name : text
+  birth_date : date
+  gender : text
+}
+
+entity "Trainee" as trainee {
+  *trainee_id : number <<generated>>
+  --
+  name : text
+  phone_number : text
+  email : text
+  start_date : date
+}
+
+entity "Trainer" as trainer {
+  *trainer_id : number <<generated>>
+  --
+  name : text
+  phone_number : text
+  email : text
+}
+
+entity "Template" as template {
+  *template_id : number <<generated>>
+  --
+  trainer_id : number
+  name : text
+}
+
+entity "Exercise" as exercise {
+  *exercise_id : number <<generated>>
+  --
+  name : text
+  muscle_group : text
+}
+
+entity "Workoutplan" as w_plan {
+  *workoutplan_id : number <<generated>>
+  --
+  name : text
+  trainee_id : number
+}
+
+entity "Workoutplan_Exercise" as w_e {
+  *workoutplan_exercise_id : number <<generated>>
+  --
+  workoutplan_id : number
+  exercise_id : number
+  set : number
+  weight : number
+  reps : number
+  time : number
+}
+
+
+
+person .. trainee
+person .. trainer
+trainer --|{ template
+trainee --|{ w_plan
+template }|--|{ exercise
+w_plan --|{ w_e
+exercise --|{ w_e
+
+@enduml
