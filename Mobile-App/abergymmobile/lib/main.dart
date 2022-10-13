@@ -13,25 +13,19 @@ class AberGymMobileApp extends StatelessWidget {
       theme: ThemeData(
           scaffoldBackgroundColor: const Color.fromARGB(0, 37, 37, 50)),
       home: Scaffold(
-          appBar: AppBar(
-            title: const Text(
-              'AberGym',
-              style: TextStyle(
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
-                color: Colors.lightBlue,
-              ),
+        appBar: AppBar(
+          title: const Text(
+            'AberGym',
+            style: TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+              color: Colors.lightBlue,
             ),
-            backgroundColor: const Color.fromARGB(0, 37, 37, 50),
-            centerTitle: true,
           ),
-          /*body: Container(
-          child: const Text(
-            'Gesamtkörper Workout',
-            style: TextStyle(color: Colors.lightBlue, fontSize: 24),
-          ),
-        ),*/
-          body: Column()),
+          backgroundColor: const Color.fromARGB(0, 37, 37, 50),
+          centerTitle: true,
+        ),
+      ),
     );
   }
 }
