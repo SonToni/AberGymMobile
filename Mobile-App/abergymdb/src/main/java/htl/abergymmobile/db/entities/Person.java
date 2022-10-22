@@ -24,6 +24,9 @@ public class Person {
     @Column(name="last_name", nullable = false)
     public String lastName;
 
+    @Transient
+    public String name = firstName + lastName;
+
     @Column(nullable = false)
     public String email;
 
