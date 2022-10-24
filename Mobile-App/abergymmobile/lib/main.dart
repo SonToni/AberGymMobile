@@ -50,42 +50,33 @@ class Body extends StatelessWidget {
       thickness: 10,
       radius: const Radius.circular(50),
       thumbColor: const Color.fromARGB(255, 157, 217, 241),
-      //Scrollbar für Testen
-      child: DataTableExample(), //Farbe anpassen
+      child: DataTableExample(),
     );
   }
 }
 
-class Footer extends StatefulWidget {
+//Überarbeiten
+class Footer extends StatelessWidget {
   const Footer({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _FooterState createState() => _FooterState();
-}
-
-class _FooterState extends State<Footer> {
-  int currentIndex = 1;
-  final screens = [const Home(), const Last_Plan()];
-
-  @override
-  Widget build(BuildContext context) => BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: currentIndex,
-        onTap: (index) => setState(() => currentIndex = index),
-        backgroundColor: const Color.fromRGBO(37, 37, 50, 1),
-        selectedItemColor:
-            const Color.fromARGB(255, 42, 195, 255), // Farbe anpassen,
-        unselectedItemColor: Colors.white60,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, size: 0),
-            label: 'Letzter Trainingsplan',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, size: 0),
-            label: 'Heutiger Trainingsplan',
-          )
-        ],
-      );
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: const Color.fromRGBO(37, 37, 50, 1),
+      selectedItemColor:
+          const Color.fromARGB(255, 42, 195, 255), // Farbe anpassen,
+      unselectedItemColor: Colors.white60,
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home, size: 0),
+          label: 'Heutiger Trainingsplan',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home, size: 0),
+          label: 'Letzter Trainingsplan',
+        )
+      ],
+    );
+  }
 }
