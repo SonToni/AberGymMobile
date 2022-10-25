@@ -1,24 +1,23 @@
-import 'package:abergymmobile/last_trainingsplan.dart';
 import 'package:flutter/material.dart';
-import 'package:abergymmobile/table.dart';
+import 'mainscreen/bodies/secondBody.dart';
+import 'mainscreen/bodies/homeBody.dart';
 
-void main() => runApp(const AberGymMobile());
+void main() => runApp(const MainScreen());
 
-class AberGymMobile extends StatelessWidget {
-  const AberGymMobile({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(title: 'AberGym', home: Home());
-  }
+  _MainScreenState createState() => _MainScreenState();
 }
 
-class Home extends StatelessWidget {
-  const Home({super.key});
-
+class _MainScreenState extends State<MainScreen> {
+  int currentIndex = 1;
+  final screens = [const Last_Plan(), const HomeBody()];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+        home: Scaffold(
       backgroundColor: const Color.fromRGBO(37, 37, 50, 1),
       appBar: AppBar(
         // Navigation
@@ -33,50 +32,27 @@ class Home extends StatelessWidget {
         backgroundColor: const Color.fromRGBO(37, 37, 50, 1),
         centerTitle: true,
       ),
-      body: const Body(),
-      bottomNavigationBar: const Footer(),
-    );
-  }
-}
-
-class Body extends StatelessWidget {
-  const Body({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return RawScrollbar(
-      //Scrollbar für Testen
-      isAlwaysShown: true,
-      thickness: 10,
-      radius: const Radius.circular(50),
-      thumbColor: const Color.fromARGB(255, 157, 217, 241),
-      child: DataTableExample(),
-    );
-  }
-}
-
-//Überarbeiten
-class Footer extends StatelessWidget {
-  const Footer({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: const Color.fromRGBO(37, 37, 50, 1),
-      selectedItemColor:
-          const Color.fromARGB(255, 42, 195, 255), // Farbe anpassen,
-      unselectedItemColor: Colors.white60,
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home, size: 0),
-          label: 'Heutiger Trainingsplan',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home, size: 0),
-          label: 'Letzter Trainingsplan',
-        )
-      ],
-    );
+      body: screens[currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex,
+          onTap: (index) => setState(() => currentIndex = index),
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: const Color.fromRGBO(37, 37, 50, 1),
+          selectedItemColor:
+              const Color.fromARGB(255, 42, 195, 255), // Farbe anpassen,
+          unselectedItemColor: Colors.white60,
+          selectedFontSize: 18,
+          unselectedFontSize: 18,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home, size: 0),
+              label: 'Letzter Trainingsplan',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home, size: 0),
+              label: 'Heutiger Trainingsplan',
+            )
+          ]),
+    ));
   }
 }

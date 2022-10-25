@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DataTableExample extends StatelessWidget {
+  const DataTableExample({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:abergymmobile/main.dart';
+import 'package:abergymmobile/MainScreen/main.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -23,4 +23,4 @@ class SplashScreenState extends State<MyHomePage> {
         color: Colors.yellow,
         child: FlutterLogo(size: MediaQuery.of(context).size.height));
   }
-}
+}*/
