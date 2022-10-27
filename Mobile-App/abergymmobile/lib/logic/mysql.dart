@@ -1,17 +1,13 @@
 import 'package:mysql1/mysql1.dart';
+import 'package:mysql_client/mysql_client.dart';
 
 class MySql {
-  static String host = '192.168.8.153',
-      user = 'root',
-      password = 'abergymmobile_kp',
-      db = 'AberGymDb';
-  static int port = 3306;
-
-  MySql();
-
-  Future<MySqlConnection> getConnection() async {
-    var settings = ConnectionSettings(
-        host: host, password: password, user: user, db: db, port: port);
-    return await MySqlConnection.connect(settings);
-  }
+  final pool = MySQLConnectionPool(
+    host: '192.168.8.153',
+    port: 3306,
+    userName: 'root',
+    password: 'abergymmobile_kp',
+    maxConnections: 10,
+    databaseName: 'AberGymDb', // optional,
+  );
 }

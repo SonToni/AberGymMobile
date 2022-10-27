@@ -1,5 +1,7 @@
+import 'package:abergymmobile/logic/models/workoutplan.dart';
 import 'package:abergymmobile/logic/mysql.dart';
 import 'package:flutter/material.dart';
+import 'package:mysql_client/mysql_client.dart';
 
 class WorkoutPlanTable extends StatefulWidget {
   const WorkoutPlanTable({super.key});
@@ -9,24 +11,23 @@ class WorkoutPlanTable extends StatefulWidget {
 }
 
 class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
-  var db = MySql();
-  var w_name = '';
-  var we_reps = '';
-  var we_sets = '';
-  var we_weight = '';
-  var e_name = '';
+  //Test
+  final pool = MySQLConnectionPool(
+    host: '192.168.8.153',
+    port: 3306,
+    userName: 'root',
+    password: 'abergymmobile_kp',
+    maxConnections: 10,
+    databaseName: 'AberGymDb',
+  );
 
-  void _getWorkout() {
-    db.getConnection().then((conn) async {
-      String sql = 'select name from AberGymDb.Workoutplan';
-      //select w.name, we.reps, we.`sets`, we.weight, e.name from AberGymDb.Workoutplan w inner join AberGymDb.WorkoutExercise we on we.workoutplan_id = w.id inner join AberGymDb.Exercise e on we.exercise_id = e.id
-
-      var results = await conn.query(sql);
-      for (var row in results) {
-        print('Name: ${row[0]}, email: ${row[1]}');
-      }
-      ;
-    });
+  List<Workoutplan> result = [];
+  var wname = '';
+  void getWorkoutPlan() async {
+    var result = await pool.execute("SELECT * FROM WorkoutPlan");
+    for (final row in result.rows) {
+      print(row.assoc());
+    }
   }
 
   @override
@@ -34,19 +35,18 @@ class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[const Text('Workoutplan:'), Text(w_name)],
+            children: <Widget>[
+              const Text('Workoutplan:'),
+              Text(wname.toString())
+            ],
           ),
-        ), //Test
-        floatingActionButton: FloatingActionButton(
-          onPressed: _getWorkout,
-          tooltip: 'Increment',
-          child: const Icon(Icons.add),
         ),
+        floatingActionButton: FloatingActionButton(onPressed: getWorkoutPlan),
       );
 }
 
 /*
-select w.name, we.reps, we.`sets`, we.weight, e.name
+select w.name, e.name, we.`sets`, we.weight, we.reps
 from AberGymDb.Workoutplan w
 inner join AberGymDb.WorkoutExercise we 
 on we.workoutplan_id = w.id
