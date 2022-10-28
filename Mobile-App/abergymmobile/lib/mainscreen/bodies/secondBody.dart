@@ -6,6 +6,6 @@ class Last_Plan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('In Arbeit');
+    return DataTableExample();
   }
 }
