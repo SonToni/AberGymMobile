@@ -14,6 +14,7 @@ class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
   late List<String?> wesets = [];
   late List<String?> weweight = [];
   late List<String?> ename = [];
+  late int amountrows = 0;
 
   Future<void> getWorkoutplan() async {
     print("Connecting to mysql server...");
@@ -35,6 +36,8 @@ class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
     var result = await conn.execute(
         "select w.name, e.name as excersice, we.`sets`, we.weight, we.reps from Workoutplan w join WorkoutExercise we on we.workoutplan_id = w.id join Exercise e on we.exercise_id = e.id");
 
+    amountrows = result.numOfRows;
+
     // print query result
     for (final row in result.rows) {
       setState(() {
@@ -52,67 +55,61 @@ class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: const Color.fromRGBO(37, 37, 50, 1),
-        body: Column(
-          children: <Widget>[
+        body: Column(children: <Widget>[
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                (wname?.length != null ? wname.toString() : ""),
+                style: const TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 42, 195, 255)),
+              )),
+          for (int i = 0; i < amountrows; i++) ...[
             Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  (wname?.length != null ? wname.toString() : ""),
+                  (ename.isNotEmpty ? ename[i].toString() : ""),
+                  textScaleFactor: 2,
                   style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 42, 195, 255)),
+                      fontSize: 14, color: Color.fromARGB(255, 42, 195, 255)),
                 )),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                (ename.isNotEmpty ? ename[0].toString() : ""),
-                textScaleFactor: 2,
-                style: const TextStyle(
-                    fontSize: 14, color: Color.fromARGB(255, 42, 195, 255)),
-              ),
-            ),
-            Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Table(
-                  children: [
-                    TableRow(children: [
-                      Center(
-                          child: Text(
-                        (wesets.isNotEmpty
-                            ? 'Sätze: ${wesets[0].toString()}'
-                            : ""),
-                        textScaleFactor: 1.5,
-                        style: const TextStyle(
-                            fontSize: 13,
-                            color: Color.fromARGB(255, 42, 195, 255)),
-                      )),
-                      Center(
-                          child: Text(
-                        (wereps.isNotEmpty
-                            ? 'Wdh: ${wereps[0].toString()}'
-                            : ""),
-                        textScaleFactor: 1.5,
-                        style: const TextStyle(
-                            fontSize: 13,
-                            color: Color.fromARGB(255, 42, 195, 255)),
-                      )),
-                      Center(
+                child: Table(children: [
+                  TableRow(children: [
+                    Center(
                         child: Text(
-                          (weweight.isNotEmpty
-                              ? 'Kg: ${weweight[0].toString()}'
-                              : ""),
-                          textScaleFactor: 1.5,
-                          style: const TextStyle(
-                              fontSize: 13,
-                              color: Color.fromARGB(255, 42, 195, 255)),
-                        ),
-                      )
-                    ])
-                  ],
-                ))
-          ],
-        ),
+                      (wesets.isNotEmpty
+                          ? 'Sätze: ${wesets[i].toString()}'
+                          : ""),
+                      textScaleFactor: 1.5,
+                      style: const TextStyle(
+                          fontSize: 13,
+                          color: Color.fromARGB(255, 42, 195, 255)),
+                    )),
+                    Center(
+                        child: Text(
+                      (wereps.isNotEmpty ? 'Wdh: ${wereps[i].toString()}' : ""),
+                      textScaleFactor: 1.5,
+                      style: const TextStyle(
+                          fontSize: 13,
+                          color: Color.fromARGB(255, 42, 195, 255)),
+                    )),
+                    Center(
+                        child: Text(
+                      (weweight.isNotEmpty
+                          ? 'Kg: ${weweight[i].toString()}'
+                          : ""),
+                      textScaleFactor: 1.5,
+                      style: const TextStyle(
+                          fontSize: 13,
+                          color: Color.fromARGB(255, 42, 195, 255)),
+                    ))
+                  ])
+                ]))
+          ]
+        ]),
         //TestButtom
         floatingActionButton: FloatingActionButton(onPressed: getWorkoutplan),
       );
