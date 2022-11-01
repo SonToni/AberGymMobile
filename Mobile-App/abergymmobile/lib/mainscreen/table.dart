@@ -21,7 +21,7 @@ class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
   late int amountrows = 0;
 
   Future<void> getWorkoutplan() async {
-    print("Connecting to mysql server...");
+    //print("Connecting to mysql server...");
 
     // create connection
     final conn = await MySQLConnection.createConnection(
@@ -35,7 +35,7 @@ class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
     await conn.connect();
     var result;
 
-    print("Connected");
+    //print("Connected");
 
     // make query
 
@@ -72,72 +72,94 @@ class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: const Color.fromRGBO(37, 37, 50, 1),
-        body: ListView(children: <Widget>[
-          Padding(
-              padding: const EdgeInsets.all(8.0),
+        body: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(15.0),
+              height: 60,
               child: Text((wname?.length != null ? wname.toString() : ""),
                   style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 42, 195, 255)),
-                  textAlign: TextAlign.center)),
-          for (int i = 0; i < amountrows; i++) ...[
-            Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text((ename.isNotEmpty ? ename[i].toString() : ""),
-                    textScaleFactor: 2,
-                    style: const TextStyle(
-                        fontSize: 14, color: Color.fromARGB(255, 42, 195, 255)),
-                    textAlign: TextAlign.center)),
-            Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Table(children: [
-                  TableRow(children: [
-                    Center(
-                        child: Text(
-                      (wesets.isNotEmpty
-                          ? 'Sätze: ${wesets[i].toString()}'
-                          : ""),
-                      textScaleFactor: 1.5,
-                      style: const TextStyle(
-                          fontSize: 13,
-                          color: Color.fromARGB(255, 42, 195, 255)),
-                    )),
-                    Center(
-                        child: Text(
-                      (wereps.isNotEmpty ? 'Wdh: ${wereps[i].toString()}' : ""),
-                      textScaleFactor: 1.5,
-                      style: const TextStyle(
-                          fontSize: 13,
-                          color: Color.fromARGB(255, 42, 195, 255)),
-                    )),
-                    Center(
-                        child: Text(
-                      (weweight.isNotEmpty
-                          ? 'Kg: ${weweight[i].toString()}'
-                          : ""),
-                      textScaleFactor: 1.5,
-                      style: const TextStyle(
-                          fontSize: 13,
-                          color: Color.fromARGB(255, 42, 195, 255)),
-                    ))
-                  ])
-                ]))
-          ]
-        ]),
-        /*bottomNavigationBar: GestureDetector(
-        child: Container(
-            height: 170,
-            width: 325,
-            child: const Center(
-              child: Text(
-                "Trainingsplan Starten!",
-                style: TextStyle(color: Colors.white70, fontSize: 20),
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 42, 195, 255),
+                  ),
+                  textAlign: TextAlign.center),
+            ),
+            Expanded(
+              child: Scrollbar(
+                thumbVisibility: true,
+                child: ListView(
+                  children: <Widget>[
+                    for (int i = 0; i < amountrows; i++) ...[
+                      Container(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            top: BorderSide(color: Colors.white, width: 1.5),
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(8.0),
+                        child:
+                            Text((ename.isNotEmpty ? ename[i].toString() : ""),
+                                textScaleFactor: 2,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Color.fromARGB(255, 42, 195, 255),
+                                ),
+                                textAlign: TextAlign.center),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Table(
+                          children: [
+                            TableRow(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    (wesets.isNotEmpty
+                                        ? 'Sätze: ${wesets[i].toString()}'
+                                        : ""),
+                                    textScaleFactor: 1.5,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      color: Color.fromARGB(255, 42, 195, 255),
+                                    ),
+                                  ),
+                                ),
+                                Center(
+                                  child: Text(
+                                    (wereps.isNotEmpty
+                                        ? 'Wdh: ${wereps[i].toString()}'
+                                        : ""),
+                                    textScaleFactor: 1.5,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      color: Color.fromARGB(255, 42, 195, 255),
+                                    ),
+                                  ),
+                                ),
+                                Center(
+                                  child: Text(
+                                    (weweight.isNotEmpty
+                                        ? 'Kg: ${weweight[i].toString()}'
+                                        : ""),
+                                    textScaleFactor: 1.5,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      color: Color.fromARGB(255, 42, 195, 255),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ],
+                ),
               ),
-            )),
-        onTap: () {
-          print('clicky');
-        },
-      )*/
+            )
+          ],
+        ),
       );
 }
