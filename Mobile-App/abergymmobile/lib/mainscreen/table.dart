@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:mysql_client/mysql_client.dart';
 
 class WorkoutPlanTable extends StatefulWidget {
-  const WorkoutPlanTable({super.key});
+  int version = 0;
+  WorkoutPlanTable({super.key, required this.version});
 
   @override
-  State<WorkoutPlanTable> createState() => _WorkoutPlanTableState();
+  State<WorkoutPlanTable> createState() => _WorkoutPlanTableState(version);
 }
 
 class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
+  int version = 0;
+  _WorkoutPlanTableState(this.version);
+
   String? wname;
   late List<String?> wereps = [];
   late List<String?> wesets = [];
@@ -29,12 +33,19 @@ class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
     );
 
     await conn.connect();
+    var result;
 
     print("Connected");
 
     // make query
-    var result = await conn.execute(
-        "select w.name, e.name as excersice, we.`sets`, we.weight, we.reps from Workoutplan w join WorkoutExercise we on we.workoutplan_id = w.id join Exercise e on we.exercise_id = e.id");
+
+    if (version == 1) {
+      result = await conn.execute(
+          "select w.name, e.name as excersice, we.`sets`, we.weight, we.reps from Workoutplan w join WorkoutExercise we on we.workoutplan_id = w.id join Exercise e on we.exercise_id = e.id where w.id = (select max(id) from Workoutplan)");
+    } else if (version == 2) {
+      result = await conn.execute(
+          "select w.name, e.name as excersice, we.`sets`, we.weight, we.reps from Workoutplan w join WorkoutExercise we on we.workoutplan_id = w.id join Exercise e on we.exercise_id = e.id where w.id = (select max(id)-1 from Workoutplan)");
+    }
 
     amountrows = result.numOfRows;
 
@@ -53,27 +64,31 @@ class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getWorkoutplan();
+  }
+
+  @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: const Color.fromRGBO(37, 37, 50, 1),
-        body: Column(children: <Widget>[
+        body: ListView(children: <Widget>[
           Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                (wname?.length != null ? wname.toString() : ""),
-                style: const TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 42, 195, 255)),
-              )),
+              child: Text((wname?.length != null ? wname.toString() : ""),
+                  style: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 42, 195, 255)),
+                  textAlign: TextAlign.center)),
           for (int i = 0; i < amountrows; i++) ...[
             Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  (ename.isNotEmpty ? ename[i].toString() : ""),
-                  textScaleFactor: 2,
-                  style: const TextStyle(
-                      fontSize: 14, color: Color.fromARGB(255, 42, 195, 255)),
-                )),
+                child: Text((ename.isNotEmpty ? ename[i].toString() : ""),
+                    textScaleFactor: 2,
+                    style: const TextStyle(
+                        fontSize: 14, color: Color.fromARGB(255, 42, 195, 255)),
+                    textAlign: TextAlign.center)),
             Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Table(children: [
@@ -110,7 +125,19 @@ class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
                 ]))
           ]
         ]),
-        //TestButtom
-        floatingActionButton: FloatingActionButton(onPressed: getWorkoutplan),
+        /*bottomNavigationBar: GestureDetector(
+        child: Container(
+            height: 170,
+            width: 325,
+            child: const Center(
+              child: Text(
+                "Trainingsplan Starten!",
+                style: TextStyle(color: Colors.white70, fontSize: 20),
+              ),
+            )),
+        onTap: () {
+          print('clicky');
+        },
+      )*/
       );
 }

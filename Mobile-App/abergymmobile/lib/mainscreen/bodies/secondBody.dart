@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:abergymmobile/mainscreen/testtable.dart';
+import 'package:abergymmobile/mainscreen/table.dart';
 
-class Last_Plan extends StatelessWidget {
-  const Last_Plan({super.key});
+class SecondBody extends StatelessWidget {
+  const SecondBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return DataTableExample();
+    return WorkoutPlanTable(version: 2);
   }
 }
