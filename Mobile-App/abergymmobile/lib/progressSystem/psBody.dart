@@ -1,6 +1,6 @@
 // ignore_for_file: file_names
 
-import 'package:abergymmobile/progressSystem/psTable.dart';
+import 'package:abergymmobile/ProgressSystem/PSTable.dart';
 import 'package:flutter/material.dart';
 
 class PSBody extends StatelessWidget {
@@ -10,13 +10,17 @@ class PSBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       backgroundColor: Color.fromRGBO(37, 37, 50, 1),
+      //Call up PSTable
       body: PSTable(),
       bottomNavigationBar: SizedBox(
         height: 111,
         child: Center(
           child: Text(
             "Übung bitte auswählen!",
-            style: TextStyle(color: Colors.white70, fontSize: 20),
+            style: TextStyle(
+              color: Colors.white70,
+              fontSize: 20,
+            ),
           ),
         ),
       ),

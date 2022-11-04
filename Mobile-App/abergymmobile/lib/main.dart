@@ -15,13 +15,13 @@ class AberGym extends StatefulWidget {
 }
 
 class _AberGymState extends State<AberGym> {
-  ///Navigation Bar Methods
-  ///currentIndex = 1 to start with HomeBody
-  ///0|1
+  ///Variables
+  ///
+  ///Data-Variables
   final screens = [const SecondBody(), HomeBody()];
   int currentIndex = 1;
 
-  ///Colors-Config
+  ///Widget-Variables
   Color lightblue = const Color.fromARGB(255, 42, 195, 255);
   Color backgroundColor = const Color.fromRGBO(37, 37, 50, 1);
 
@@ -29,7 +29,7 @@ class _AberGymState extends State<AberGym> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        ///call up extern AppBar
+        ///Call up extern AppBar
         appBar: const Header(),
         body: screens[currentIndex],
         bottomNavigationBar: Container(
@@ -43,6 +43,8 @@ class _AberGymState extends State<AberGym> {
           ),
           child: BottomNavigationBar(
             currentIndex: currentIndex,
+
+            ///Update currentIndex when users tap
             onTap: (index) => setState(() => currentIndex = index),
             type: BottomNavigationBarType.fixed,
             backgroundColor: backgroundColor,

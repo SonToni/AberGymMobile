@@ -1,4 +1,6 @@
-import 'package:abergymmobile/progressSystem/psBody.dart';
+// ignore_for_file: unused_element, file_names, no_leading_underscores_for_local_identifiers
+
+import 'package:abergymmobile/ProgressSystem/PSBody.dart';
 import 'package:flutter/material.dart';
 
 class PSMain extends StatelessWidget {
@@ -6,7 +8,7 @@ class PSMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: no_leading_underscores_for_local_identifiers
+    ///Popup Alert for exting Progress System
     Future<bool> _onWillPop() async {
       return (await showDialog(
             context: context,
@@ -18,13 +20,11 @@ class PSMain extends StatelessWidget {
                   style: TextStyle(color: Colors.white)),
               actions: <Widget>[
                 TextButton(
-                  onPressed: () =>
-                      Navigator.of(context).pop(false), //<-- SEE HERE
+                  onPressed: () => Navigator.of(context).pop(false),
                   child: const Text('Nein'),
                 ),
                 TextButton(
-                  onPressed: () =>
-                      Navigator.of(context).pop(true), // <-- SEE HERE
+                  onPressed: () => Navigator.of(context).pop(true),
                   child: const Text('Ja'),
                 ),
               ],
@@ -37,6 +37,8 @@ class PSMain extends StatelessWidget {
       onWillPop: _onWillPop,
       child: const Scaffold(
         backgroundColor: Color.fromRGBO(37, 37, 50, 1),
+
+        ///Call up PSBody
         body: PSBody(),
       ),
     );
