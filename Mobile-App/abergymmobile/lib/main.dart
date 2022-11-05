@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'CommonBase/AppBar.dart';
 import 'StartScreen/Bodies/HomeBody.dart';
 import 'StartScreen/Bodies/SecondBody.dart';
+//import 'package:flutter/services.dart';
 
 void main() {
+  //SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
   runApp(const AberGym());
 }
 

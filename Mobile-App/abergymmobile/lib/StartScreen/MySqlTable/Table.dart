@@ -36,8 +36,8 @@ class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
 
     ///Create Connection
     final conn = await MySQLConnection.createConnection(
-      //host: '192.168.8.153',
-      host: '172.17.34.109',
+      host: '192.168.8.153',
+      //host: '172.17.34.109',
       port: 3306,
       userName: 'root',
       password: 'abergymmobile_kp',
@@ -89,7 +89,6 @@ class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
   ///Variables
   ///
   ///Widget-Vairables
-  ///ColorConfig
   Color fontColor = const Color.fromARGB(255, 42, 195, 255);
   Color backgroundColor = const Color.fromRGBO(37, 37, 50, 1);
   double? fontSizeRows = 13;
