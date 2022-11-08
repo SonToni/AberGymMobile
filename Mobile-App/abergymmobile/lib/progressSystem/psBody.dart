@@ -4,15 +4,15 @@ import 'package:abergymmobile/ProgressSystem/PSTable.dart';
 import 'package:flutter/material.dart';
 
 class PSBody extends StatelessWidget {
-  const PSBody({super.key});
-
+  PSBody({super.key});
+  List<bool> emptyList = [];
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color.fromRGBO(37, 37, 50, 1),
+    return Scaffold(
+      backgroundColor: const Color.fromRGBO(37, 37, 50, 1),
       //Call up PSTable
-      body: PSTable(),
-      bottomNavigationBar: SizedBox(
+      body: PSTable(finished: emptyList),
+      bottomNavigationBar: const SizedBox(
         height: 111,
         child: Center(
           child: Text(

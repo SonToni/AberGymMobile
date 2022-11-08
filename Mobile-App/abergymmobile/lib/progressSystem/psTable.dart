@@ -1,14 +1,18 @@
-// ignore_for_file: file_names, prefer_typing_uninitialized_variables
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables, must_be_immutable, no_logic_in_create_state
 
 import 'package:abergymmobile/ProgressSystem/PSSetCounter.dart';
 import 'package:flutter/material.dart';
 import 'package:mysql_client/mysql_client.dart';
 
 class PSTable extends StatefulWidget {
-  const PSTable({super.key});
+  List<bool> finished;
+  PSTable({
+    super.key,
+    required this.finished,
+  });
 
   @override
-  State<PSTable> createState() => _PSTableState();
+  State<PSTable> createState() => _PSTableState(finished);
 }
 
 class _PSTableState extends State<PSTable> {
@@ -22,6 +26,9 @@ class _PSTableState extends State<PSTable> {
   late List<String?> weweight = [];
   late List<String?> ename = [];
   late int amountrows = 0;
+  List<bool> finishedExcersiceList = [];
+
+  _PSTableState(this.finishedExcersiceList);
 
   Future<void> getWorkoutPlan() async {
     ///Variables
@@ -34,6 +41,7 @@ class _PSTableState extends State<PSTable> {
     final conn = await MySQLConnection.createConnection(
       host: '192.168.8.153',
       //host: '172.17.34.109',
+      //host: '172.28.224.1',
       port: 3306,
       userName: 'root',
       password: 'abergymmobile_kp',
@@ -62,6 +70,12 @@ class _PSTableState extends State<PSTable> {
         },
       );
     }
+    if (finishedExcersiceList.isEmpty == true) {
+      for (int i = 0; i < amountrows; i++) {
+        finishedExcersiceList.add(false);
+      }
+    }
+    print(finishedExcersiceList);
 
     ///Close Connection
     await conn.close();
@@ -111,102 +125,291 @@ class _PSTableState extends State<PSTable> {
                 children: <Widget>[
                   ///Go through Data
                   for (int i = 0; i < amountrows; i++) ...[
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PSSystem(
-                              ename: ename[i],
-                              wereps: wereps[i],
-                              wesets: wesets[i],
-                              weweight: weweight[i],
-                            ),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        height: 78,
-                        margin: const EdgeInsets.only(
-                          top: 3.8,
-                          right: 12,
-                          left: 12,
-                          bottom: 3.8,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
-                          color: const Color.fromARGB(255, 42, 195, 255),
-                        ),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                ///Check Variable if null
-                                (ename.isNotEmpty ? ename[i].toString() : ""),
-                                textScaleFactor: 2,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: fontColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.center,
+                    if (finishedExcersiceList.isEmpty == true) ...[
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PSSystem(
+                                ename: ename[i],
+                                wereps: wereps[i],
+                                wesets: wesets[i],
+                                weweight: weweight[i],
+                                i: i,
+                                finished: finishedExcersiceList,
                               ),
                             ),
-                            Table(
+                          );
+                        },
+                        child: Container(
+                          height: 78,
+                          margin: const EdgeInsets.only(
+                            top: 3.8,
+                            right: 12,
+                            left: 12,
+                            bottom: 3.8,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            color: const Color.fromARGB(255, 42, 195, 255),
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  ///Check Variable if null
+                                  (ename.isNotEmpty ? ename[i].toString() : ""),
+                                  textScaleFactor: 2,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: fontColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Table(
+                                children: [
+                                  TableRow(
+                                    children: [
+                                      Center(
+                                        child: Text(
+                                          ///Check Variable if null
+                                          (wesets.isNotEmpty
+                                              ? 'Sätze: ${wesets[i].toString()}'
+                                              : ""),
+                                          textScaleFactor: 1.5,
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color: fontColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: Text(
+                                          ///Check Variable if null
+                                          (wereps.isNotEmpty
+                                              ? 'Wdh: ${wereps[i].toString()}'
+                                              : ""),
+                                          textScaleFactor: 1.5,
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color: fontColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: Text(
+                                          ///Check Variable if null
+                                          (weweight.isNotEmpty
+                                              ? 'Kg: ${weweight[i].toString()}'
+                                              : ""),
+                                          textScaleFactor: 1.5,
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color: fontColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ] else ...[
+                      if (finishedExcersiceList[i] == false) ...[
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PSSystem(
+                                  ename: ename[i],
+                                  wereps: wereps[i],
+                                  wesets: wesets[i],
+                                  weweight: weweight[i],
+                                  i: i,
+                                  finished: finishedExcersiceList,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            height: 78,
+                            margin: const EdgeInsets.only(
+                              top: 3.8,
+                              right: 12,
+                              left: 12,
+                              bottom: 3.8,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: const Color.fromARGB(255, 42, 195, 255),
+                            ),
+                            child: Column(
                               children: [
-                                TableRow(
+                                Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    ///Check Variable if null
+                                    (ename.isNotEmpty
+                                        ? ename[i].toString()
+                                        : ""),
+                                    textScaleFactor: 2,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: fontColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                Table(
                                   children: [
-                                    Center(
-                                      child: Text(
-                                        ///Check Variable if null
-                                        (wesets.isNotEmpty
-                                            ? 'Sätze: ${wesets[i].toString()}'
-                                            : ""),
-                                        textScaleFactor: 1.5,
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          color: fontColor,
-                                          fontWeight: FontWeight.bold,
+                                    TableRow(
+                                      children: [
+                                        Center(
+                                          child: Text(
+                                            ///Check Variable if null
+                                            (wesets.isNotEmpty
+                                                ? 'Sätze: ${wesets[i].toString()}'
+                                                : ""),
+                                            textScaleFactor: 1.5,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: fontColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    Center(
-                                      child: Text(
-                                        ///Check Variable if null
-                                        (wereps.isNotEmpty
-                                            ? 'Wdh: ${wereps[i].toString()}'
-                                            : ""),
-                                        textScaleFactor: 1.5,
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          color: fontColor,
-                                          fontWeight: FontWeight.bold,
+                                        Center(
+                                          child: Text(
+                                            ///Check Variable if null
+                                            (wereps.isNotEmpty
+                                                ? 'Wdh: ${wereps[i].toString()}'
+                                                : ""),
+                                            textScaleFactor: 1.5,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: fontColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    Center(
-                                      child: Text(
-                                        ///Check Variable if null
-                                        (weweight.isNotEmpty
-                                            ? 'Kg: ${weweight[i].toString()}'
-                                            : ""),
-                                        textScaleFactor: 1.5,
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          color: fontColor,
-                                          fontWeight: FontWeight.bold,
+                                        Center(
+                                          child: Text(
+                                            ///Check Variable if null
+                                            (weweight.isNotEmpty
+                                                ? 'Kg: ${weweight[i].toString()}'
+                                                : ""),
+                                            textScaleFactor: 1.5,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: fontColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
                                   ],
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
+                      ] else if (finishedExcersiceList[i] == true) ...[
+                        Container(
+                          height: 78,
+                          margin: const EdgeInsets.only(
+                            top: 3.8,
+                            right: 12,
+                            left: 12,
+                            bottom: 3.8,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            color: const Color.fromARGB(255, 54, 88, 101),
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  ///Check Variable if null
+                                  (ename.isNotEmpty ? ename[i].toString() : ""),
+                                  textScaleFactor: 2,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: fontColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Table(
+                                children: [
+                                  TableRow(
+                                    children: [
+                                      Center(
+                                        child: Text(
+                                          ///Check Variable if null
+                                          (wesets.isNotEmpty
+                                              ? 'Sätze: ${wesets[i].toString()}'
+                                              : ""),
+                                          textScaleFactor: 1.5,
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color: fontColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: Text(
+                                          ///Check Variable if null
+                                          (wereps.isNotEmpty
+                                              ? 'Wdh: ${wereps[i].toString()}'
+                                              : ""),
+                                          textScaleFactor: 1.5,
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color: fontColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: Text(
+                                          ///Check Variable if null
+                                          (weweight.isNotEmpty
+                                              ? 'Kg: ${weweight[i].toString()}'
+                                              : ""),
+                                          textScaleFactor: 1.5,
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color: fontColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]
+                    ],
                   ],
                 ],
               ),

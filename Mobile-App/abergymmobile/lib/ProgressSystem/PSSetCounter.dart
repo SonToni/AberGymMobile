@@ -1,23 +1,29 @@
 // ignore_for_file: must_be_immutable, no_logic_in_create_state, file_names, prefer_typing_uninitialized_variables
 
 import 'package:abergymmobile/CommonBase/AppBar.dart';
+import 'package:abergymmobile/ProgressSystem/PSTable.dart';
 import 'package:flutter/material.dart';
+import 'dart:collection';
 
 class PSSystem extends StatefulWidget {
   String? ename;
   String? wereps;
   String? wesets;
   String? weweight;
+  int i;
+  List<bool> finished;
 
   PSSystem(
       {super.key,
       required this.ename,
       required this.wereps,
       required this.wesets,
-      required this.weweight});
+      required this.weweight,
+      required this.i,
+      required this.finished});
   @override
   State<PSSystem> createState() =>
-      _PSSystemState(ename, wereps, wesets, weweight);
+      _PSSystemState(ename, wereps, wesets, weweight, i, finished);
 }
 
 class _PSSystemState extends State<PSSystem> {
@@ -26,8 +32,16 @@ class _PSSystemState extends State<PSSystem> {
   String? wereps;
   String? wesets;
   String? weweight;
-
-  _PSSystemState(this.ename, this.wereps, this.wesets, this.weweight);
+  int i;
+  List<bool> finished;
+  _PSSystemState(
+    this.ename,
+    this.wereps,
+    this.wesets,
+    this.weweight,
+    this.i,
+    this.finished,
+  );
 
   ///Variables
   ///
@@ -39,15 +53,12 @@ class _PSSystemState extends State<PSSystem> {
 
   ///Data-Variables
   int counter = 0;
-  bool finished = false;
 
   void _increaseCounter() {
     setState(() => counter++);
     if (counter > int.parse(wesets!)) {
-      setState(() => finished = true);
+      setState(() => finished[i] = true);
     }
-    print(counter);
-    print(finished);
   }
 
   @override
@@ -174,18 +185,34 @@ class _PSSystemState extends State<PSSystem> {
                     )
                   : Column(
                       children: [
-                        Text(
-                          "Übung",
-                          style: TextStyle(
-                            color: backgroundColor,
-                            fontSize: 75,
-                          ),
-                        ),
-                        Text(
-                          "Fertig",
-                          style: TextStyle(
-                            color: backgroundColor,
-                            fontSize: 65,
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PSTable(
+                                  finished: finished,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                "Übung",
+                                style: TextStyle(
+                                  color: backgroundColor,
+                                  fontSize: 75,
+                                ),
+                              ),
+                              Text(
+                                "Fertig",
+                                style: TextStyle(
+                                  color: backgroundColor,
+                                  fontSize: 65,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -197,7 +224,7 @@ class _PSSystemState extends State<PSSystem> {
       bottomNavigationBar: SizedBox(
         height: 111,
         child: Center(
-          child: finished
+          child: finished[i]
               ? const Text(
                   "Bitte auf den Bildschirm drücken, um eine neue Übung auzuwählen",
                   style: TextStyle(

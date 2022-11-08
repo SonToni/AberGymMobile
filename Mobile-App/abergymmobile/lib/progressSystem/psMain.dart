@@ -35,8 +35,8 @@ class PSMain extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: const Scaffold(
-        backgroundColor: Color.fromRGBO(37, 37, 50, 1),
+      child: Scaffold(
+        backgroundColor: const Color.fromRGBO(37, 37, 50, 1),
 
         ///Call up PSBody
         body: PSBody(),
