@@ -30,6 +30,8 @@ class _PSTableState extends State<PSTable> {
 
   _PSTableState(this.finishedExcersiceList);
 
+  bool watchBoolList = false;
+
   Future<void> getWorkoutPlan() async {
     ///Variables
     ///
@@ -39,8 +41,8 @@ class _PSTableState extends State<PSTable> {
 
     ///Create Connection
     final conn = await MySQLConnection.createConnection(
-      host: '192.168.8.153',
-      //host: '172.17.34.109',
+      //host: '192.168.8.153',
+      host: '172.17.210.49',
       //host: '172.28.224.1',
       port: 3306,
       userName: 'root',
@@ -75,7 +77,15 @@ class _PSTableState extends State<PSTable> {
         finishedExcersiceList.add(false);
       }
     }
-    print(finishedExcersiceList);
+    int counter = 0;
+    for (int i = 0; i < amountrows; i++) {
+      if (finishedExcersiceList[i] == true) {
+        counter++;
+      }
+      if (counter == amountrows) {
+        watchBoolList = true;
+      }
+    }
 
     ///Close Connection
     await conn.close();
@@ -95,6 +105,53 @@ class _PSTableState extends State<PSTable> {
   Color backgroundColor = const Color.fromRGBO(37, 37, 50, 1);
   double? fontSizeRows = 13;
   double? fontPixelsRows = 1.5;
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = InkWell(
+      child: const Text(
+        "No",
+        style: TextStyle(color: Colors.white),
+      ),
+      onTap: () {},
+    );
+    Widget continueButton = InkWell(
+      child: const Text(
+        "Yes",
+        style: TextStyle(color: Colors.white),
+      ),
+      onTap: () {},
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: const Color.fromARGB(255, 60, 60, 75),
+      title: const Text(
+        "Workoutplan ändern",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 25,
+        ),
+      ),
+      content: const Text(
+        "Wollen Sie diesen Workoutplan ändern?",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 15,
+        ),
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,108 +181,28 @@ class _PSTableState extends State<PSTable> {
               child: ListView(
                 children: <Widget>[
                   ///Go through Data
-                  for (int i = 0; i < amountrows; i++) ...[
-                    if (finishedExcersiceList.isEmpty == true) ...[
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PSSystem(
-                                ename: ename[i],
-                                wereps: wereps[i],
-                                wesets: wesets[i],
-                                weweight: weweight[i],
-                                i: i,
-                                finished: finishedExcersiceList,
-                              ),
+                  if (watchBoolList == true) ...[
+                    InkWell(
+                      onTap: () {
+                        showAlertDialog(context);
+                      },
+                      child: Container(
+                        height: 500,
+                        child: const Center(
+                          child: Text(
+                            "Sie Haben Ihren Trainingsplan erfolgreich abgeschlossen",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
                             ),
-                          );
-                        },
-                        child: Container(
-                          height: 78,
-                          margin: const EdgeInsets.only(
-                            top: 3.8,
-                            right: 12,
-                            left: 12,
-                            bottom: 3.8,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            color: const Color.fromARGB(255, 42, 195, 255),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  ///Check Variable if null
-                                  (ename.isNotEmpty ? ename[i].toString() : ""),
-                                  textScaleFactor: 2,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color: fontColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Table(
-                                children: [
-                                  TableRow(
-                                    children: [
-                                      Center(
-                                        child: Text(
-                                          ///Check Variable if null
-                                          (wesets.isNotEmpty
-                                              ? 'Sätze: ${wesets[i].toString()}'
-                                              : ""),
-                                          textScaleFactor: 1.5,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: fontColor,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      Center(
-                                        child: Text(
-                                          ///Check Variable if null
-                                          (wereps.isNotEmpty
-                                              ? 'Wdh: ${wereps[i].toString()}'
-                                              : ""),
-                                          textScaleFactor: 1.5,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: fontColor,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      Center(
-                                        child: Text(
-                                          ///Check Variable if null
-                                          (weweight.isNotEmpty
-                                              ? 'Kg: ${weweight[i].toString()}'
-                                              : ""),
-                                          textScaleFactor: 1.5,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: fontColor,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
-                    ] else ...[
-                      if (finishedExcersiceList[i] == false) ...[
+                    ),
+                  ] else ...[
+                    for (int i = 0; i < amountrows; i++) ...[
+                      if (finishedExcersiceList.isEmpty == true) ...[
                         InkWell(
                           onTap: () {
                             Navigator.push(
@@ -326,96 +303,222 @@ class _PSTableState extends State<PSTable> {
                             ),
                           ),
                         ),
-                      ] else if (finishedExcersiceList[i] == true) ...[
-                        Container(
-                          height: 78,
-                          margin: const EdgeInsets.only(
-                            top: 3.8,
-                            right: 12,
-                            left: 12,
-                            bottom: 3.8,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            color: const Color.fromARGB(255, 54, 88, 101),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  ///Check Variable if null
-                                  (ename.isNotEmpty ? ename[i].toString() : ""),
-                                  textScaleFactor: 2,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color: fontColor,
-                                    fontWeight: FontWeight.bold,
+                      ] else ...[
+                        if (finishedExcersiceList[i] == false) ...[
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PSSystem(
+                                    ename: ename[i],
+                                    wereps: wereps[i],
+                                    wesets: wesets[i],
+                                    weweight: weweight[i],
+                                    i: i,
+                                    finished: finishedExcersiceList,
                                   ),
-                                  textAlign: TextAlign.center,
                                 ),
+                              );
+                            },
+                            child: Container(
+                              height: 78,
+                              margin: const EdgeInsets.only(
+                                top: 3.8,
+                                right: 12,
+                                left: 12,
+                                bottom: 3.8,
                               ),
-                              Table(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.0),
+                                color: const Color.fromARGB(255, 42, 195, 255),
+                              ),
+                              child: Column(
                                 children: [
-                                  TableRow(
+                                  Container(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      ///Check Variable if null
+                                      (ename.isNotEmpty
+                                          ? ename[i].toString()
+                                          : ""),
+                                      textScaleFactor: 2,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: fontColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  Table(
                                     children: [
-                                      Center(
-                                        child: Text(
-                                          ///Check Variable if null
-                                          (wesets.isNotEmpty
-                                              ? 'Sätze: ${wesets[i].toString()}'
-                                              : ""),
-                                          textScaleFactor: 1.5,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: fontColor,
-                                            fontWeight: FontWeight.bold,
+                                      TableRow(
+                                        children: [
+                                          Center(
+                                            child: Text(
+                                              ///Check Variable if null
+                                              (wesets.isNotEmpty
+                                                  ? 'Sätze: ${wesets[i].toString()}'
+                                                  : ""),
+                                              textScaleFactor: 1.5,
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                color: fontColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      Center(
-                                        child: Text(
-                                          ///Check Variable if null
-                                          (wereps.isNotEmpty
-                                              ? 'Wdh: ${wereps[i].toString()}'
-                                              : ""),
-                                          textScaleFactor: 1.5,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: fontColor,
-                                            fontWeight: FontWeight.bold,
+                                          Center(
+                                            child: Text(
+                                              ///Check Variable if null
+                                              (wereps.isNotEmpty
+                                                  ? 'Wdh: ${wereps[i].toString()}'
+                                                  : ""),
+                                              textScaleFactor: 1.5,
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                color: fontColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      Center(
-                                        child: Text(
-                                          ///Check Variable if null
-                                          (weweight.isNotEmpty
-                                              ? 'Kg: ${weweight[i].toString()}'
-                                              : ""),
-                                          textScaleFactor: 1.5,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: fontColor,
-                                            fontWeight: FontWeight.bold,
+                                          Center(
+                                            child: Text(
+                                              ///Check Variable if null
+                                              (weweight.isNotEmpty
+                                                  ? 'Kg: ${weweight[i].toString()}'
+                                                  : ""),
+                                              textScaleFactor: 1.5,
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                color: fontColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
                                           ),
-                                        ),
+                                        ],
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ]
+                        ] else if (finishedExcersiceList[i] == true) ...[
+                          Container(
+                            height: 78,
+                            margin: const EdgeInsets.only(
+                              top: 3.8,
+                              right: 12,
+                              left: 12,
+                              bottom: 3.8,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: const Color.fromARGB(255, 54, 88, 101),
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    ///Check Variable if null
+                                    (ename.isNotEmpty
+                                        ? ename[i].toString()
+                                        : ""),
+                                    textScaleFactor: 2,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: fontColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                Table(
+                                  children: [
+                                    TableRow(
+                                      children: [
+                                        Center(
+                                          child: Text(
+                                            ///Check Variable if null
+                                            (wesets.isNotEmpty
+                                                ? 'Sätze: ${wesets[i].toString()}'
+                                                : ""),
+                                            textScaleFactor: 1.5,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: fontColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        Center(
+                                          child: Text(
+                                            ///Check Variable if null
+                                            (wereps.isNotEmpty
+                                                ? 'Wdh: ${wereps[i].toString()}'
+                                                : ""),
+                                            textScaleFactor: 1.5,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: fontColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        Center(
+                                          child: Text(
+                                            ///Check Variable if null
+                                            (weweight.isNotEmpty
+                                                ? 'Kg: ${weweight[i].toString()}'
+                                                : ""),
+                                            textScaleFactor: 1.5,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: fontColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ]
+                      ],
                     ],
-                  ],
+                  ]
                 ],
               ),
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: SizedBox(
+        height: 111,
+        child: Center(
+            child: watchBoolList
+                ? const Text(
+                    "Bitte auf den Bildschirm drücken um fortzufahren!",
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 20,
+                    ),
+                    textAlign: TextAlign.center,
+                  )
+                : const Text(
+                    "Übung bitte auswählen!",
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 20,
+                    ),
+                    textAlign: TextAlign.center,
+                  )),
       ),
     );
   }
