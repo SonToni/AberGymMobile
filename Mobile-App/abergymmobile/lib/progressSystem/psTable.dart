@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, prefer_typing_uninitialized_variables, must_be_immutable, no_logic_in_create_state
 
 import 'package:abergymmobile/ProgressSystem/PSSetCounter.dart';
+import 'package:abergymmobile/UpdateSystem/USStart.dart';
 import 'package:flutter/material.dart';
 import 'package:mysql_client/mysql_client.dart';
 
@@ -106,53 +107,6 @@ class _PSTableState extends State<PSTable> {
   double? fontSizeRows = 13;
   double? fontPixelsRows = 1.5;
 
-  showAlertDialog(BuildContext context) {
-    // set up the buttons
-    Widget cancelButton = InkWell(
-      child: const Text(
-        "No",
-        style: TextStyle(color: Colors.white),
-      ),
-      onTap: () {},
-    );
-    Widget continueButton = InkWell(
-      child: const Text(
-        "Yes",
-        style: TextStyle(color: Colors.white),
-      ),
-      onTap: () {},
-    );
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      backgroundColor: const Color.fromARGB(255, 60, 60, 75),
-      title: const Text(
-        "Workoutplan ändern",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 25,
-        ),
-      ),
-      content: const Text(
-        "Wollen Sie diesen Workoutplan ändern?",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 15,
-        ),
-      ),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -184,7 +138,51 @@ class _PSTableState extends State<PSTable> {
                   if (watchBoolList == true) ...[
                     InkWell(
                       onTap: () {
-                        showAlertDialog(context);
+                        AlertDialog alertDialog = AlertDialog(
+                          backgroundColor:
+                              const Color.fromARGB(255, 60, 60, 75),
+                          title: const Text('Workout ändern?',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                              )),
+                          content: const Text(
+                              'Wollen Sie an diesen Workoutplan Änderungen vornehmen?',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              )),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const USStart()),
+                                );
+                              },
+                              child: const Text('Nein',
+                                  style: TextStyle(fontSize: 20)),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const USStart()),
+                                );
+                              },
+                              child: const Text('Ja',
+                                  style: TextStyle(fontSize: 20)),
+                            ),
+                          ],
+                        );
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return alertDialog;
+                          },
+                        );
                       },
                       child: Container(
                         height: 500,
