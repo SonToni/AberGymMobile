@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'CommonBase/AppBar.dart';
 import 'StartScreen/Bodies/HomeBody.dart';
 import 'StartScreen/Bodies/SecondBody.dart';
-//import 'package:flutter/services.dart';
+import 'package:flutter/services.dart';
 
-void main() {
-  //SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+Future<void> main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const AberGym());
 }
 
@@ -17,6 +20,16 @@ class AberGym extends StatefulWidget {
 }
 
 class _AberGymState extends State<AberGym> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void initialization() async {
+    await Future.delayed(const Duration(seconds: 3));
+    FlutterNativeSplash.remove();
+  }
+
   ///Variables
   ///
   ///Data-Variables
@@ -30,9 +43,10 @@ class _AberGymState extends State<AberGym> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         ///Call up extern AppBar
-        appBar: const Header(),
+        //appBar: const Header(),
         body: screens[currentIndex],
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
@@ -46,7 +60,7 @@ class _AberGymState extends State<AberGym> {
           child: BottomNavigationBar(
             currentIndex: currentIndex,
 
-            ///Update currentIndex when users tap
+            ///Update currentIndex when users tap button
             onTap: (index) => setState(() => currentIndex = index),
             type: BottomNavigationBarType.fixed,
             backgroundColor: backgroundColor,

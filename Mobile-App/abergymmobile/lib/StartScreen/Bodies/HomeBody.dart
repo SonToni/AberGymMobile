@@ -33,7 +33,7 @@ class HomeBody extends StatelessWidget {
           ),
         ),
         child: const SizedBox(
-          height: 195,
+          height: 216,
           child: Center(
             child: Text(
               "Trainingsplan Starten!",

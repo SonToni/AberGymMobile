@@ -12,18 +12,6 @@ class PSBody extends StatelessWidget {
       backgroundColor: const Color.fromRGBO(37, 37, 50, 1),
       //Call up PSTable
       body: PSTable(finished: emptyList),
-      bottomNavigationBar: const SizedBox(
-        height: 111,
-        child: Center(
-          child: Text(
-            "Übung bitte auswählen!",
-            style: TextStyle(
-              color: Colors.white70,
-              fontSize: 20,
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

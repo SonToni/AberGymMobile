@@ -99,25 +99,103 @@ class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
+      appBar: AppBar(
+        elevation: 0.0,
+        title: const Text(
+          'Angemeldet als: Peric Antonio',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Color.fromARGB(255, 42, 195, 255), // Farbe anpassen
+          ),
+        ),
+        backgroundColor: backgroundColor,
+        centerTitle: true,
+      ),
       body: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.all(15.0),
-            height: 60,
-            child: Text(
-              ///Check Variable if null
-              (wname?.length != null ? wname.toString() : ""),
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: fontColor,
+          if (version == 2) ...[
+            Image.asset('assets/images/AdBanner.png'),
+          ],
+          /*Container(
+            decoration: const BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white,
+                  width: 1.5,
+                ),
               ),
-              textAlign: TextAlign.center,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 15,
+                bottom: 5,
+              ),
+              child: Text(
+                "Angemeldet als: Peric Antonio",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: fontColor,
+                ),
+              ),
+            ),
+          ),*/
+          Container(
+            padding: const EdgeInsets.all(8),
+            height: 80,
+            child: Column(
+              children: <Widget>[
+                if (version == 1) ...[
+                  Text(
+                    ///Check Variable if null
+                    "Ihr Heutiger Trainingsplan:",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: fontColor,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(3),
+                    child: Text(
+                      ///Check Variable if null
+                      (wname?.length != null ? wname.toString() : ""),
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: fontColor,
+                      ),
+                    ),
+                  ),
+                ] else ...[
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Text(
+                      ///Check Variable if null
+                      (wname?.length != null ? wname.toString() : ""),
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: fontColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
             ),
           ),
           Expanded(
-            child: Scrollbar(
+            child: RawScrollbar(
+              thickness: 7,
               thumbVisibility: true,
+              trackVisibility: true,
+              trackColor: Colors.white70,
+              shape: StadiumBorder(
+                side: BorderSide(
+                  color: fontColor,
+                  width: 5.0,
+                ),
+              ),
               child: ListView(
                 children: <Widget>[
                   ///Go through Data
@@ -144,7 +222,7 @@ class _WorkoutPlanTableState extends State<WorkoutPlanTable> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(2.0),
                       child: Table(
                         children: [
                           TableRow(
