@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'CommonBase/AppBar.dart';
 import 'StartScreen/Bodies/HomeBody.dart';
 import 'StartScreen/Bodies/SecondBody.dart';
 import 'package:flutter/services.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   runApp(const AberGym());
 }
@@ -17,6 +18,11 @@ class AberGym extends StatefulWidget {
 }
 
 class _AberGymState extends State<AberGym> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   ///Variables
   ///
   ///Data-Variables
