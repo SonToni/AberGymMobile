@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'CommonBase/AppBar.dart';
 import 'StartScreen/Bodies/HomeBody.dart';
 import 'StartScreen/Bodies/SecondBody.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/services.dart';
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const AberGym());
 }
 
@@ -23,11 +21,6 @@ class _AberGymState extends State<AberGym> {
   @override
   void initState() {
     super.initState();
-  }
-
-  void initialization() async {
-    await Future.delayed(const Duration(seconds: 3));
-    FlutterNativeSplash.remove();
   }
 
   ///Variables
