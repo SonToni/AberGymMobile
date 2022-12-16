@@ -1,4 +1,5 @@
 import 'package:abergymmobile/common/AppBar.dart';
+import 'package:abergymmobile/login/NFCLogin.dart';
 import 'package:abergymmobile/login/QRCodeLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,14 +26,14 @@ class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   ///Variablen
-  final Color darkgray = const Color.fromRGBO(37, 37, 50, 1);
+  final Color darkgrey = const Color.fromRGBO(37, 37, 50, 1);
   final Color lightblue = const Color.fromARGB(255, 42, 195, 255);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const Header(),
-      backgroundColor: darkgray,
+      backgroundColor: darkgrey,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -61,7 +62,7 @@ class LoginScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => QRCodeLogin(),
+                    builder: (context) => const QRCodeLogin(),
                   ),
                 );
               },
@@ -95,7 +96,12 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 20),
             InkWell(
               onTap: () {
-                // Hier könnte der Code für das Einloggen per NFC hinzugefügt werden
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NFCLogin(),
+                  ),
+                );
               },
               child: Container(
                 width: 250,

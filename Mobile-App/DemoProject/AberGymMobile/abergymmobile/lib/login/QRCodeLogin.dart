@@ -1,6 +1,5 @@
 // ignore_for_file: file_names, library_private_types_in_public_api
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -13,6 +12,7 @@ class QRCodeLogin extends StatefulWidget {
 }
 
 class _QRCodeLoginState extends State<QRCodeLogin> {
+  ///Variablen
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? qrText;
   late QRViewController controller;
@@ -25,11 +25,6 @@ class _QRCodeLoginState extends State<QRCodeLogin> {
 
   @override
   Widget build(BuildContext context) {
-    /*var scanArea = (MediaQuery.of(context).size.width < 400 ||
-            MediaQuery.of(context).size.height < 400)
-        ? 150.0
-        : 300.0;*/
-
     return Scaffold(
       backgroundColor: Colors.grey[900],
       body: Column(
@@ -39,12 +34,6 @@ class _QRCodeLoginState extends State<QRCodeLogin> {
             child: QRView(
               key: qrKey,
               onQRViewCreated: _onQRViewCreated,
-              /*overlay: QrScannerOverlayShape(
-                borderColor: Colors.red,
-                borderRadius: 10,
-                borderLength: 30,
-                borderWidth: 10,
-              ),*/
             ),
           ),
           Expanded(
