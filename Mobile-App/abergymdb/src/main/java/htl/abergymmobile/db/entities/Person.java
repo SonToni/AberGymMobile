@@ -24,6 +24,9 @@ public class Person {
     @Column(name="last_name", nullable = false)
     public String lastName;
 
+    @Column(name="card_id", nullable = false)
+    public String cardId;
+
     @Transient
     public String name = firstName + lastName;
 

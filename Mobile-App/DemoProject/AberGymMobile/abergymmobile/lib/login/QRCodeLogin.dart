@@ -1,8 +1,12 @@
 // ignore_for_file: file_names, library_private_types_in_public_api
 
+//Test
+import 'package:abergymmobile/main.dart';
+
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:mysql_client/mysql_client.dart';
 
 class QRCodeLogin extends StatefulWidget {
   const QRCodeLogin({super.key});
@@ -12,10 +16,14 @@ class QRCodeLogin extends StatefulWidget {
 }
 
 class _QRCodeLoginState extends State<QRCodeLogin> {
-  ///Variablen
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  Barcode? qrText;
+  Barcode? qrCardId;
   late QRViewController controller;
+  String name = "";
+  final Color darkgrey = const Color.fromRGBO(37, 37, 50, 1);
+  final Color lightblue = const Color.fromARGB(255, 42, 195, 255);
+  bool _shouldNavigate = false;
+  bool _enableCamera = false;
 
   @override
   void initState() {
@@ -25,34 +33,28 @@ class _QRCodeLoginState extends State<QRCodeLogin> {
 
   @override
   Widget build(BuildContext context) {
+    if (_shouldNavigate) {
+      return const MyApp();
+    }
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: darkgrey,
       body: Column(
         children: [
-          Expanded(
-            flex: 5,
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
+          if (_enableCamera == true) ...[
+            Expanded(
+              flex: 4,
+              child: _buildQrView(context),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Column(
-              children: <Widget>[
-                if (qrText != null)
-                  Text(
-                    'Data: ${qrText!.code}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
-              ],
-            ),
-          ),
+          ],
         ],
       ),
+    );
+  }
+
+  Widget _buildQrView(BuildContext context) {
+    return QRView(
+      key: qrKey,
+      onQRViewCreated: _onQRViewCreated,
     );
   }
 
@@ -65,15 +67,57 @@ class _QRCodeLoginState extends State<QRCodeLogin> {
         requestPermission();
       }
     }
+    if (status.isGranted == true) {
+      setState(() {
+        _enableCamera = true;
+      });
+    }
   }
 
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       setState(() {
-        qrText = scanData;
+        qrCardId = scanData;
+        getWorkoutPlan(qrCardId?.code);
       });
     });
+  }
+
+  Future<void> getWorkoutPlan(String? qrCardId) async {
+    IResultSet result;
+
+    final conn = await MySQLConnection.createConnection(
+      host: '192.168.8.153',
+      port: 3306,
+      userName: 'root',
+      password: 'abergymmobile_kp',
+      databaseName: 'AberGymMobileDb',
+    );
+
+    await conn.connect();
+    result = await conn
+        .execute("select p.card_id, p.first_name, p.last_name from Person p");
+
+    for (final row in result.rows) {
+      setState(
+        () {
+          String? firstName = "";
+          String? lastName = "";
+          if (qrCardId == row.colAt(0)) {
+            firstName = row.colAt(1);
+            lastName = row.colAt(2);
+            name = "$firstName $lastName";
+          }
+        },
+      );
+    }
+    if (name.isEmpty == false) {
+      setState(() {
+        _shouldNavigate = true;
+      });
+    }
+    await conn.close();
   }
 
   @override

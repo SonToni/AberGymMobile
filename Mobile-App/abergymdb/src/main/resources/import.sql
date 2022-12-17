@@ -1,7 +1,7 @@
 --------------------------------------------------------
 --  First Customer | Test data
 --------------------------------------------------------
-Insert into Person (first_name,last_name,email) values ('Antonio','Peric','test@gmail.com');
+Insert into Person (first_name,last_name,email,cardId) values ('Antonio','Peric','test@gmail.com','34987698346593767893');
 Insert into Trainee (id) values (1);
 
 --------------------------------------------------------

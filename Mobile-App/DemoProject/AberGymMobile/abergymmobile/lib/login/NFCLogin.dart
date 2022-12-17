@@ -60,7 +60,7 @@ class _NFCLoginState extends State<NFCLogin> {
                     onTap: _startScan,
                     child: const Text("Karte scannen"),
                   ),
-                  Text(result.value),
+                  if (result.value != null) ...[Text(result.value)]
                 ],
               )
             : Column(
