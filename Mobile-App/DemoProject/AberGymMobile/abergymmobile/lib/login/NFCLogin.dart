@@ -12,7 +12,6 @@ class NFCLogin extends StatefulWidget {
 }
 
 class _NFCLoginState extends State<NFCLogin> {
-  ///Variablen
   bool _nfcEnabled = false;
   ValueNotifier<dynamic> result = ValueNotifier(null);
   final Color darkgrey = const Color.fromRGBO(37, 37, 50, 1);
@@ -56,7 +55,7 @@ class _NFCLoginState extends State<NFCLogin> {
                       color: lightblue,
                     ),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: _startScan,
                     child: const Text("Karte scannen"),
                   ),

@@ -3,6 +3,7 @@ import 'package:abergymmobile/login/NFCLogin.dart';
 import 'package:abergymmobile/login/QRCodeLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:page_transition/page_transition.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +26,6 @@ class MyApp extends StatelessWidget {
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
-  ///Variablen
   final Color darkgrey = const Color.fromRGBO(37, 37, 50, 1);
   final Color lightblue = const Color.fromARGB(255, 42, 195, 255);
 
@@ -57,21 +57,23 @@ class LoginScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 45),
-            InkWell(
+            GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => QRCodeLogin(),
+                  PageTransition(
+                    type: PageTransitionType.bottomToTop,
+                    duration: Duration(milliseconds: 350),
+                    child: const QRCodeLogin(),
                   ),
                 );
               },
               child: Container(
-                width: 250,
+                width: 300,
                 height: 50,
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 42, 195, 255),
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(15),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -94,7 +96,7 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            InkWell(
+            GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
@@ -104,11 +106,11 @@ class LoginScreen extends StatelessWidget {
                 );
               },
               child: Container(
-                width: 250,
+                width: 300,
                 height: 50,
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 42, 195, 255),
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(15),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

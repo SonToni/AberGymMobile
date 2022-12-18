@@ -18,6 +18,7 @@ class Header extends StatelessWidget with PreferredSizeWidget {
       ),
       backgroundColor: const Color.fromRGBO(37, 37, 50, 1),
       centerTitle: true,
+      elevation: 0,
     );
   }
 

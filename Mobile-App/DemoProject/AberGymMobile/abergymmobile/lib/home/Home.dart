@@ -1,44 +1,30 @@
+import 'package:abergymmobile/home/bodies/HomeBody.dart';
+import 'package:abergymmobile/home/bodies/SecondBody.dart';
 import 'package:flutter/material.dart';
-import 'StartScreen/Bodies/HomeBody.dart';
-import 'StartScreen/Bodies/SecondBody.dart';
-import 'package:flutter/services.dart';
 
-Future<void> main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-  runApp(const AberGym());
-}
-
-class AberGym extends StatefulWidget {
-  const AberGym({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<AberGym> createState() => _AberGymState();
+  State<Home> createState() => _HomeState();
 }
 
-class _AberGymState extends State<AberGym> {
+class _HomeState extends State<Home> {
+  int currentIndex = 1;
+  Color lightblue = const Color.fromARGB(255, 42, 195, 255);
+  Color darkgrey = const Color.fromRGBO(37, 37, 50, 1);
+  final screens = [SecondBody(), HomeBody()];
+
   @override
   void initState() {
     super.initState();
   }
-
-  ///Variables
-  ///
-  ///Data-Variables
-  final screens = [const SecondBody(), HomeBody()];
-  int currentIndex = 1;
-
-  ///Widget-Variables
-  Color lightblue = const Color.fromARGB(255, 42, 195, 255);
-  Color backgroundColor = const Color.fromRGBO(37, 37, 50, 1);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        ///Call up extern AppBar
-        //appBar: const Header(),
         body: screens[currentIndex],
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
@@ -51,11 +37,9 @@ class _AberGymState extends State<AberGym> {
           ),
           child: BottomNavigationBar(
             currentIndex: currentIndex,
-
-            ///Update currentIndex when users tap button
             onTap: (index) => setState(() => currentIndex = index),
             type: BottomNavigationBarType.fixed,
-            backgroundColor: backgroundColor,
+            backgroundColor: darkgrey,
             selectedItemColor: lightblue,
             unselectedItemColor: Colors.white60,
             selectedFontSize: 18,
