@@ -20,23 +20,18 @@ class _SqlTableState extends State<SqlTable> {
   double? fontPixelsRows = 1.5;
   int version = 0;
   String name = "";
-  String? wname;
-  late List<String?> wereps = [];
-  late List<String?> wesets = [];
-  late List<String?> weweight = [];
-  late List<String?> ename = [];
+  late String wname = "";
+  late List<String> wereps = [];
+  late List<String> wesets = [];
+  late List<String> weweight = [];
+  late List<String> ename = [];
   late int amountrows = 0;
 
   _SqlTableState(this.version);
 
   Future<void> getWorkoutPlan() async {
-    ///Variables
-    ///
-    ///Data-Variables
-    ///SelectResult
     var result;
 
-    ///Create Connection
     final conn = await MySQLConnection.createConnection(
       host: '192.168.8.153',
       port: 3306,
@@ -47,6 +42,7 @@ class _SqlTableState extends State<SqlTable> {
 
     await conn.connect();
 
+    //Select anpassen an user!!!!!!!!!
     if (version == 1) {
       result = await conn.execute(
           "select w.name, e.name as excersice, we.`sets`, we.weight, we.reps from Workoutplan w join WorkoutExercise we on we.workoutplan_id = w.id join Exercise e on we.exercise_id = e.id where w.id = (select max(id) from Workoutplan)");
@@ -69,6 +65,15 @@ class _SqlTableState extends State<SqlTable> {
     }
 
     await conn.close();
+    if (version == 1) {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('wname', wname);
+      prefs.setStringList('wereps', wereps);
+      prefs.setStringList('wesets', wesets);
+      prefs.setStringList('weweight', weweight);
+      prefs.setStringList('ename', ename);
+      prefs.setInt('amountrows', amountrows);
+    }
   }
 
   void getName() async {
@@ -94,7 +99,7 @@ class _SqlTableState extends State<SqlTable> {
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 42, 195, 255), // Farbe anpassen
+            color: lightblue,
           ),
         ),
         backgroundColor: darkgrey,
@@ -111,7 +116,6 @@ class _SqlTableState extends State<SqlTable> {
                   Padding(
                     padding: const EdgeInsets.all(3),
                     child: Text(
-                      ///Check Variable if null
                       (wname?.length != null ? wname.toString() : ""),
                       style: TextStyle(
                         fontSize: 25,
@@ -124,7 +128,6 @@ class _SqlTableState extends State<SqlTable> {
                   Padding(
                     padding: const EdgeInsets.all(3),
                     child: Text(
-                      ///Check Variable if null
                       (wname?.length != null ? wname.toString() : ""),
                       style: TextStyle(
                         fontSize: 25,
@@ -151,7 +154,6 @@ class _SqlTableState extends State<SqlTable> {
               ),
               child: ListView(
                 children: <Widget>[
-                  ///Go through Data
                   for (int i = 0; i < amountrows; i++) ...[
                     Container(
                       decoration: const BoxDecoration(

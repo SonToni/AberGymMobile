@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, file_names
 
 import 'package:abergymmobile/common/SqlTable.dart';
+import 'package:abergymmobile/progress/Main.dart';
 import 'package:flutter/material.dart';
 
 class HomeBody extends StatelessWidget {
@@ -13,7 +14,7 @@ class HomeBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SqlTable(version: 1),
-      /*bottomNavigationBar: ElevatedButton(
+      bottomNavigationBar: ElevatedButton(
         onPressed: (() => _navigateToNextScreen(context)),
         style: ElevatedButton.styleFrom(
           backgroundColor: darkgrey,
@@ -36,13 +37,11 @@ class HomeBody extends StatelessWidget {
             ),
           ),
         ),
-      ),*/
+      ),
     );
   }
 
-  /*void _navigateToNextScreen(BuildContext context) {
-    Navigator.of(context)
-        //PSMain() statt HomeBody
-        .push(MaterialPageRoute(builder: (context) => HomeBody()));
-  }*/
+  void _navigateToNextScreen(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Main()));
+  }
 }

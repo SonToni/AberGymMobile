@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
         PageTransition(
           type: PageTransitionType.scale,
           child: Home(),
-          reverseDuration: Duration(seconds: 5),
+          reverseDuration: Duration(milliseconds: 500),
           alignment: Alignment.center,
         ),
       );
