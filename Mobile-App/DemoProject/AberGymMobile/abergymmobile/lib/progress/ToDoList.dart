@@ -1,5 +1,6 @@
 import 'package:abergymmobile/home/Home.dart';
 import 'package:abergymmobile/progress/SetCounter.dart';
+import 'package:abergymmobile/update/UpdateBody.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -350,7 +351,7 @@ class _ToDoListState extends State<ToDoList> {
                                                 PageTransitionType.bottomToTop,
                                             duration:
                                                 Duration(milliseconds: 350),
-                                            child: const Home(),
+                                            child: UpdateBody(),
                                           ),
                                         );
                                       },

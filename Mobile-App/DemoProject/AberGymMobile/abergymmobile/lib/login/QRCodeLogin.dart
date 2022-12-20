@@ -27,6 +27,7 @@ class _QRCodeLoginState extends State<QRCodeLogin> {
   bool _shouldNavigate = false;
   late Timer _timer;
   bool _showGestureDetector = false;
+  bool logintrue = false;
 
   @override
   void initState() {
@@ -169,7 +170,8 @@ class _QRCodeLoginState extends State<QRCodeLogin> {
     IResultSet result;
 
     final conn = await MySQLConnection.createConnection(
-      host: '192.168.8.153',
+      //host: '192.168.8.153',
+      host: '172.17.209.169',
       port: 3306,
       userName: 'root',
       password: 'abergymmobile_kp',
@@ -193,12 +195,14 @@ class _QRCodeLoginState extends State<QRCodeLogin> {
         },
       );
     }
+    final prefs = await SharedPreferences.getInstance();
     if (name.isEmpty == false) {
       setState(() {
         _shouldNavigate = true;
+        logintrue = true;
+        prefs.setBool('login', logintrue);
       });
     }
-    final prefs = await SharedPreferences.getInstance();
     prefs.setString('key', name);
     await conn.close();
   }

@@ -1,14 +1,27 @@
 import 'package:abergymmobile/common/AppBar.dart';
+import 'package:abergymmobile/home/Home.dart';
 import 'package:abergymmobile/login/NFCLogin.dart';
 import 'package:abergymmobile/login/QRCodeLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-  runApp(const MyApp());
+
+  bool alreadylogin = false;
+  bool? x;
+  final prefs = await SharedPreferences.getInstance();
+  x = await prefs.getBool('login');
+  if (x == true) {
+    alreadylogin = true;
+  }
+  print(alreadylogin);
+  runApp(MaterialApp(
+    home: alreadylogin ? const Home() : const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -28,6 +41,7 @@ class LoginScreen extends StatelessWidget {
 
   final Color darkgrey = const Color.fromRGBO(37, 37, 50, 1);
   final Color lightblue = const Color.fromARGB(255, 42, 195, 255);
+  final Color gold = const Color.fromRGBO(212, 175, 55, 1.000);
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                 width: 300,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 42, 195, 255),
+                  color: lightblue,
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Row(
@@ -109,7 +123,7 @@ class LoginScreen extends StatelessWidget {
                 width: 300,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 42, 195, 255),
+                  color: gold,
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Row(
