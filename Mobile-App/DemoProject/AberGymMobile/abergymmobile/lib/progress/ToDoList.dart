@@ -90,8 +90,8 @@ class _ToDoListState extends State<ToDoList> {
             ),
           ),
           Expanded(
-            child: RawScrollbar(
-              thickness: 7,
+            child: SingleChildScrollView(
+              /*thickness: 7,
               thumbVisibility: true,
               trackVisibility: true,
               trackColor: Colors.white70,
@@ -100,19 +100,19 @@ class _ToDoListState extends State<ToDoList> {
                   color: lightblue,
                   width: 5.0,
                 ),
-              ),
+              ),*/
               child: Column(
                 children: <Widget>[
                   if (finished == false) ...[
                     for (int i = 0; i < amountrows; i++) ...[
-                      if (finishedExcersiceList[i] == false ||
-                          finishedExcersiceList[i] == null) ...[
+                      if (finishedExcersiceList[i] == false) ...[
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => SetCounter(
+                              PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: SetCounter(
                                   index: i,
                                 ),
                               ),
@@ -379,7 +379,7 @@ class _ToDoListState extends State<ToDoList> {
                                         ),
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ],

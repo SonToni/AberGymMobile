@@ -2,6 +2,7 @@ import 'package:abergymmobile/common/AppBar.dart';
 import 'package:abergymmobile/home/Home.dart';
 import 'package:abergymmobile/login/NFCLogin.dart';
 import 'package:abergymmobile/login/QRCodeLogin.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
@@ -10,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+  debugDefaultTargetPlatformOverride = null;
 
   bool alreadylogin = false;
   bool? x;
@@ -18,8 +20,9 @@ Future<void> main() async {
   if (x == true) {
     alreadylogin = true;
   }
-  print(alreadylogin);
+
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: alreadylogin ? const Home() : const MyApp(),
   ));
 }
@@ -53,6 +56,9 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Hier könnte das Logo platziert werden
+            /*Container(
+                margin: EdgeInsets.only(top: 100),
+                child: Image.asset('assets/images/icon.png'),),*/
             Text(
               'Willkommen bei AberGym',
               style: TextStyle(

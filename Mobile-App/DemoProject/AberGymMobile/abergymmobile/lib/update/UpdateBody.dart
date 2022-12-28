@@ -3,6 +3,7 @@
 import 'package:abergymmobile/home/Home.dart';
 import 'package:abergymmobile/update/UpdateList.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdateBody extends StatefulWidget {
@@ -31,12 +32,15 @@ class _UpdateBodyState extends State<UpdateBody> {
     return Scaffold(
       body: UpdateList(),
       bottomNavigationBar: ElevatedButton(
-        onPressed: () async {
-          final prefs = await SharedPreferences.getInstance();
-          for (int i = 0; i < amountrows; i++) {
-            prefs.remove('finishedExcersice_$i');
-          }
-          _navigateToNextScreen(context);
+        onPressed: () {
+          Navigator.push(
+            context,
+            PageTransition(
+              type: PageTransitionType.fade,
+              duration: Duration(milliseconds: 500),
+              child: const Home(),
+            ),
+          );
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: darkgrey,
@@ -72,10 +76,5 @@ class _UpdateBodyState extends State<UpdateBody> {
         ),
       ),
     );
-  }
-
-  void _navigateToNextScreen(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const Home()));
   }
 }

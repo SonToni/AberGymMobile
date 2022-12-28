@@ -3,6 +3,7 @@
 import 'package:abergymmobile/common/SqlTable.dart';
 import 'package:abergymmobile/progress/Main.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeBody extends StatelessWidget {
   HomeBody({super.key});
@@ -15,7 +16,23 @@ class HomeBody extends StatelessWidget {
     return Scaffold(
       body: SqlTable(version: 1),
       bottomNavigationBar: ElevatedButton(
-        onPressed: (() => _navigateToNextScreen(context)),
+        onPressed: (() async {
+          final prefs = await SharedPreferences.getInstance();
+          int amountrows = await prefs.getInt('amountrows')!;
+          int countTrue = 0;
+
+          for (int i = 0; i < amountrows; i++) {
+            if (prefs.getBool('finishedExcersice_$i') == true) {
+              countTrue++;
+            }
+          }
+          if (countTrue == amountrows) {
+            for (int i = 0; i < amountrows; i++) {
+              prefs.remove('finishedExcersice_$i');
+            }
+          }
+          _navigateToNextScreen(context);
+        }),
         style: ElevatedButton.styleFrom(
           backgroundColor: darkgrey,
           shape: RoundedRectangleBorder(

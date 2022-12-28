@@ -57,12 +57,8 @@ class _SetCounterState extends State<SetCounter> {
     final prefs = await SharedPreferences.getInstance();
     setState(() => counter++);
     if (counter > int.parse(wesets)) {
-      setState(() async {
-        finishedExcersice = true;
-        prefs.setBool('finishedExcersice_$index', finishedExcersice);
-        bool test = await prefs.getBool('finishedExcersice_$index')!;
-        print('$finishedExcersice $index $test');
-      });
+      finishedExcersice = true;
+      prefs.setBool('finishedExcersice_$index', finishedExcersice);
     }
   }
 
@@ -156,71 +152,93 @@ class _SetCounterState extends State<SetCounter> {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: _increaseCounter,
-            child: Container(
-              padding: const EdgeInsets.only(top: 65),
-              margin: const EdgeInsets.all(50.0),
-              width: 300.0,
-              height: 300.0,
-              decoration: BoxDecoration(
-                color: lightblue,
-                shape: BoxShape.circle,
-              ),
-              child: counter <= int.parse(wesets)
-                  ? Column(
-                      children: [
-                        Text(
-                          '$counter/$wesets',
-                          style: TextStyle(
-                            color: darkgrey,
-                            fontSize: 100,
-                          ),
-                        ),
-                        Text(
-                          "Erledigte Sätze",
-                          style: TextStyle(
-                            color: darkgrey,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    )
-                  : Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ToDoList(),
-                              ),
-                            );
-                          },
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                "Übung",
-                                style: TextStyle(
-                                  color: darkgrey,
-                                  fontSize: 75,
-                                ),
-                              ),
-                              Text(
-                                "Fertig",
-                                style: TextStyle(
-                                  color: darkgrey,
-                                  fontSize: 65,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+          if (counter <= int.parse(wesets)) ...[
+            GestureDetector(
+              onTap: _increaseCounter,
+              child: Container(
+                padding: const EdgeInsets.only(top: 65),
+                margin: const EdgeInsets.all(50.0),
+                width: 300.0,
+                height: 300.0,
+                decoration: BoxDecoration(
+                  color: lightblue,
+                  shape: BoxShape.circle,
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      '$counter/$wesets',
+                      style: TextStyle(
+                        color: darkgrey,
+                        fontSize: 100,
+                      ),
                     ),
+                    Text(
+                      "Erledigte Sätze",
+                      style: TextStyle(
+                        color: darkgrey,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
+          ] else ...[
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ToDoList(),
+                  ),
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.only(top: 65),
+                margin: const EdgeInsets.all(50.0),
+                width: 300.0,
+                height: 300.0,
+                decoration: BoxDecoration(
+                  color: lightblue,
+                  shape: BoxShape.circle,
+                ),
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ToDoList(),
+                          ),
+                        );
+                      },
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            "Übung",
+                            style: TextStyle(
+                              color: darkgrey,
+                              fontSize: 75,
+                            ),
+                          ),
+                          Text(
+                            "Fertig",
+                            style: TextStyle(
+                              color: darkgrey,
+                              fontSize: 65,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );

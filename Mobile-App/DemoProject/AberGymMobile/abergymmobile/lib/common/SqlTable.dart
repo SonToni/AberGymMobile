@@ -33,8 +33,8 @@ class _SqlTableState extends State<SqlTable> {
     var result;
 
     final conn = await MySQLConnection.createConnection(
-      //host: '192.168.8.153',
-      host: '172.17.209.169',
+      host: '192.168.8.153',
+      //host: '172.17.209.169',
       port: 3306,
       userName: 'root',
       password: 'abergymmobile_kp',
@@ -117,7 +117,7 @@ class _SqlTableState extends State<SqlTable> {
                   Padding(
                     padding: const EdgeInsets.all(3),
                     child: Text(
-                      (wname?.length != null ? wname.toString() : ""),
+                      wname,
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
@@ -129,7 +129,7 @@ class _SqlTableState extends State<SqlTable> {
                   Padding(
                     padding: const EdgeInsets.all(3),
                     child: Text(
-                      (wname?.length != null ? wname.toString() : ""),
+                      wname,
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,

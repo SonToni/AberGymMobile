@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:abergymmobile/home/Home.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -25,10 +26,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer(Duration(seconds: 3), () {
+    _timer = Timer(Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
-        //Transition
         PageTransition(
           type: PageTransitionType.scale,
           child: Home(),
@@ -49,11 +49,33 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: darkgrey,
-      body: Center(
-        child: Text(
-          "Hallo $name \n Willkommen zurück!",
-          style: TextStyle(color: lightblue, fontSize: 38),
-          textAlign: TextAlign.left,
+      body: Container(
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedTextKit(
+              animatedTexts: [
+                RotateAnimatedText(
+                  'Hallo $name \n Wir freuen uns, dass du heute da bist!',
+                  textStyle: TextStyle(
+                    fontSize: 28,
+                    color: lightblue,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                RotateAnimatedText(
+                  'Nur Heute: \n Jeder Energydrink 1€',
+                  textStyle: TextStyle(
+                    fontSize: 28,
+                    color: lightblue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
