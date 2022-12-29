@@ -1,7 +1,9 @@
 // ignore_for_file: must_be_immutable, invalid_use_of_visible_for_testing_member
 
+import 'package:abergymmobile/common/Settings.dart';
 import 'package:flutter/material.dart';
 import 'package:mysql_client/mysql_client.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SqlTable extends StatefulWidget {
@@ -14,8 +16,9 @@ class SqlTable extends StatefulWidget {
 }
 
 class _SqlTableState extends State<SqlTable> {
-  Color lightblue = const Color.fromARGB(255, 42, 195, 255);
-  Color darkgrey = const Color.fromRGBO(37, 37, 50, 1);
+  Color? _color = null;
+  Color? _backgroundColor = null;
+  Color? _fontColor = null;
   double? fontSizeRows = 13;
   double? fontPixelsRows = 1.5;
   int version = 0;
@@ -82,17 +85,31 @@ class _SqlTableState extends State<SqlTable> {
     name = prefs.getString('key')!;
   }
 
+  void getColors() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String backgroundColor = await prefs.getString('backgroundColor')!;
+    String fontColor = await prefs.getString('fontColor')!;
+    String color = await prefs.getString('color')!;
+    setState(() {
+      _backgroundColor = Color(int.parse(backgroundColor.substring(6, 16)));
+      _fontColor = Color(int.parse(fontColor.substring(6, 16)));
+      _color = Color(int.parse(color.substring(6, 16)));
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     getWorkoutPlan().then((value) {});
     getName();
+    getColors();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: darkgrey,
+      backgroundColor: _backgroundColor,
       appBar: AppBar(
         elevation: 0.0,
         title: Text(
@@ -100,11 +117,24 @@ class _SqlTableState extends State<SqlTable> {
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: lightblue,
+            color: _color,
           ),
         ),
-        backgroundColor: darkgrey,
+        backgroundColor: _backgroundColor,
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.of(context).push(
+                PageTransition(
+                  type: PageTransitionType.bottomToTop,
+                  child: SettingsPage(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -121,7 +151,7 @@ class _SqlTableState extends State<SqlTable> {
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: lightblue,
+                        color: _color,
                       ),
                     ),
                   ),
@@ -133,7 +163,7 @@ class _SqlTableState extends State<SqlTable> {
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: lightblue,
+                        color: _color,
                       ),
                     ),
                   ),
@@ -149,7 +179,7 @@ class _SqlTableState extends State<SqlTable> {
               trackColor: Colors.white70,
               shape: StadiumBorder(
                 side: BorderSide(
-                  color: lightblue,
+                  //color: _color!,
                   width: 5.0,
                 ),
               ),
@@ -171,7 +201,7 @@ class _SqlTableState extends State<SqlTable> {
                         textScaleFactor: 2,
                         style: TextStyle(
                           fontSize: fontSizeRows,
-                          color: lightblue,
+                          color: _color,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -190,7 +220,7 @@ class _SqlTableState extends State<SqlTable> {
                                   textScaleFactor: fontPixelsRows,
                                   style: TextStyle(
                                     fontSize: fontSizeRows,
-                                    color: lightblue,
+                                    color: _color,
                                   ),
                                 ),
                               ),
@@ -202,7 +232,7 @@ class _SqlTableState extends State<SqlTable> {
                                   textScaleFactor: fontPixelsRows,
                                   style: TextStyle(
                                     fontSize: fontSizeRows,
-                                    color: lightblue,
+                                    color: _color,
                                   ),
                                 ),
                               ),
@@ -214,7 +244,7 @@ class _SqlTableState extends State<SqlTable> {
                                   textScaleFactor: fontPixelsRows,
                                   style: TextStyle(
                                     fontSize: fontSizeRows,
-                                    color: lightblue,
+                                    color: _color,
                                   ),
                                 ),
                               ),

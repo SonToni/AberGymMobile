@@ -39,12 +39,33 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final Color darkgrey = const Color.fromRGBO(37, 37, 50, 1);
   final Color lightblue = const Color.fromARGB(255, 42, 195, 255);
-  final Color gold = const Color.fromRGBO(212, 175, 55, 1.000);
+
+  void setStandardColors() async {
+    Color _color = Color.fromARGB(255, 42, 195, 255);
+    Color _backgroundColor = Color.fromRGBO(37, 37, 50, 1);
+    Color _fontColor = Color.fromARGB(255, 255, 255, 255);
+
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('backgroundColor', _backgroundColor.toString());
+    prefs.setString('fontColor', _fontColor.toString());
+    prefs.setString('color', _color.toString());
+    prefs.setBool('blackMode', true);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +76,6 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Hier könnte das Logo platziert werden
-            /*Container(
-                margin: EdgeInsets.only(top: 100),
-                child: Image.asset('assets/images/icon.png'),),*/
             Text(
               'Willkommen bei AberGym',
               style: TextStyle(
@@ -129,7 +146,7 @@ class LoginScreen extends StatelessWidget {
                 width: 300,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: gold,
+                  color: lightblue,
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Row(
