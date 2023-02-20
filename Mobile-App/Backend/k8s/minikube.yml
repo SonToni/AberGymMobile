@@ -1,0 +1,81 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.quarkus.io/commit-id: 7b02714a3c9dc0fe0b765bd4712ab9ccc1b72e7c
+    app.quarkus.io/build-timestamp: 2023-02-07 - 10:36:55 +0000
+  labels:
+    app.kubernetes.io/name: aberdbpostgre
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+  name: aberdbpostgre
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: aberdbpostgre
+      app.kubernetes.io/version: 1.0.0-SNAPSHOT
+  template:
+    metadata:
+      annotations:
+        app.quarkus.io/commit-id: 7b02714a3c9dc0fe0b765bd4712ab9ccc1b72e7c
+        app.quarkus.io/build-timestamp: 2023-02-07 - 10:36:55 +0000
+      labels:
+        app.kubernetes.io/name: aberdbpostgre
+        app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    spec:
+      containers:
+        - env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          image: wunderwebt/abergym-backend:latest
+          imagePullPolicy: IfNotPresent
+          name: aberdbpostgre
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app.quarkus.io/commit-id: 7b02714a3c9dc0fe0b765bd4712ab9ccc1b72e7c
+    app.quarkus.io/build-timestamp: 2023-02-07 - 10:36:55 +0000
+  labels:
+    app.kubernetes.io/name: aberdbpostgre
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+  name: aberdbpostgre
+spec:
+  ports:
+    - name: http
+      nodePort: 31530
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/name: aberdbpostgre
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+  type: NodePort
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aberdbpostgre
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+    #nginx.ingress.kubernetes.io/upstream-vhost: "aberdbpostgre"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /testpath
+        pathType: Prefix
+        backend:
+          service:
+            name: test
+            port:
+              number: 80
