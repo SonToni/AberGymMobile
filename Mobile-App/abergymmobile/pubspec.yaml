@@ -20,6 +20,7 @@ dependencies:
   flutter_native_splash: ^2.2.16
   permission_handler: ^10.2.0
   qr_code_scanner: ^1.0.1
+  google_fonts: ^4.0.3
 
 flutter_native_splash:
   image: assets/images/icon.png

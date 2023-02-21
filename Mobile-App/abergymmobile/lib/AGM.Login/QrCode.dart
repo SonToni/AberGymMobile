@@ -1,11 +1,12 @@
 // ignore_for_file: file_names
 
+import 'package:abergymmobile/AGM.Common/WelcomeSplash.dart';
+
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mysql_client/mysql_client.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-//delete
-import '../main.dart';
 
 class QRCodePage extends StatefulWidget {
   const QRCodePage({super.key});
@@ -27,19 +28,15 @@ class _QRCodePageState extends State<QRCodePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_shouldNavigate) {
-      return const LoginPage();
-    }
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'AberGym',
-          style: TextStyle(
+          style: GoogleFonts.montserrat(
             fontSize: 35,
-            fontWeight: FontWeight.bold,
             color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
         backgroundColor: Colors.transparent,
@@ -63,10 +60,9 @@ class _QRCodePageState extends State<QRCodePage> {
           children: [
             !showScanRect
                 ? AlertDialog(
-                    title: const Text(
-                      'Wie loggen Sie sich ein?',
-                      textAlign: TextAlign.center,
-                    ),
+                    title: Text('Wie loggen Sie sich ein?',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.getFont('Montserrat')),
                     content: Image.asset('assets/images/qrcode.gif'),
                     actions: [
                       GestureDetector(
@@ -80,13 +76,13 @@ class _QRCodePageState extends State<QRCodePage> {
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
+                              children: [
                                 Text(
-                                  'OK',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                                  'Okey',
+                                  style: GoogleFonts.montserrat(
                                     fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ],
@@ -137,6 +133,11 @@ class _QRCodePageState extends State<QRCodePage> {
         result = scanData;
         checkUser(result?.code);
       });
+      if (_shouldNavigate) {
+        controller.dispose();
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => WelcomeSplashPage(name)));
+      }
     });
   }
 
