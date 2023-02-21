@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
     //Attributes
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -34,5 +33,4 @@ public class Person {
     public String email;
 
     //Navigation
-
 }
