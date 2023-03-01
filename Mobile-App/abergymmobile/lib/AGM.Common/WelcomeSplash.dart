@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, must_be_immutable, no_logic_in_create_state
+import 'package:abergymmobile/AGM.Home/Layout.dart';
 
 import 'dart:async';
-import 'package:abergymmobile/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
@@ -30,7 +30,7 @@ class _WelcomeSplashPageState extends State<WelcomeSplashPage> {
         context,
         PageTransition(
           type: PageTransitionType.scale,
-          child: const LoginPage(),
+          child: const Layout(),
           reverseDuration: const Duration(milliseconds: 500),
           alignment: Alignment.center,
         ),

@@ -208,7 +208,7 @@ class _ToDoListState extends State<ToDoList> {
                             top: 3.8,
                             right: 12,
                             left: 12,
-                            bottom: 3.8,
+                            bottom: 3,
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.0),

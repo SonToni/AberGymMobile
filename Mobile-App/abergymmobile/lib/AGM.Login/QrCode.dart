@@ -146,6 +146,7 @@ class _QRCodePageState extends State<QRCodePage> {
 
     final conn = await MySQLConnection.createConnection(
       host: '192.168.8.153',
+      //host: '172.17.219.81',
       port: 3306,
       userName: 'root',
       password: 'abergymmobile_kp',
@@ -153,19 +154,19 @@ class _QRCodePageState extends State<QRCodePage> {
     );
 
     await conn.connect();
-    result = await conn
-        .execute("select p.card_id, p.first_name, p.last_name from Person p");
+    result = await conn.execute(
+      "SELECT first_name, last_name FROM Person WHERE card_id = :card_id",
+      {"card_id": qrCardId},
+    );
 
     for (final row in result.rows) {
       setState(
         () {
           String? firstName = "";
           String? lastName = "";
-          if (qrCardId == row.colAt(0)) {
-            firstName = row.colAt(1);
-            lastName = row.colAt(2);
-            name = "$firstName $lastName";
-          }
+          firstName = row.colAt(0);
+          lastName = row.colAt(1);
+          name = "$firstName $lastName";
         },
       );
     }
@@ -175,9 +176,10 @@ class _QRCodePageState extends State<QRCodePage> {
         _shouldNavigate = true;
         logintrue = true;
         prefs.setBool('login', logintrue);
+        prefs.setString('key', name);
       });
     }
-    prefs.setString('key', name);
+
     await conn.close();
   }
 }

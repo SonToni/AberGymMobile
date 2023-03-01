@@ -1,4 +1,5 @@
 import 'package:abergymmobile/AGM.Animations/FadeAnimation.dart';
+import 'package:abergymmobile/AGM.Login/NFC.dart';
 import 'package:abergymmobile/AGM.Login/QrCode.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -167,13 +168,21 @@ class LoginPage extends StatelessWidget {
                           FadeAnimation(
                             1.7,
                             GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const NFC(),
+                                  ),
+                                );
+                              },
                               child: Container(
                                 height: 50,
                                 margin:
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
-                                    begin: Alignment.centerLeft,
+                                    begin: Alignment.topCenter,
                                     colors: [
                                       Colors.lightBlue[900]!,
                                       Colors.lightBlue[800]!,
