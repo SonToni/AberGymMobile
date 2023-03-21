@@ -42,4 +42,32 @@ Folgende Elemente sind in einem Use-Case Diagramm üblicherweise enthalten:
         \includegraphics[scale=0.6]{pics/Use Case Diagramm.png}
         \caption{Use-Case Diagramm}
     \end{figure}
-    
+
+
+    \section{Entity Relationship Diagram - ERD}
+    \setauthor{Antonio Kuvac}
+
+    Ein ERD ist ein Diagramm der Beziehungen (Relationship) zwischen Entitäten (Entity) in einem Datenbankschema darstellt. 
+    Es wird verwendet, um das Design einer Datenbank zu modellieren und darzustellen und wie Daten in der Datenbank organisiert und miteinander verbunden sind.
+
+    \pagebreak
+
+    \subsection{Komponenten eines ERDs}
+
+    Üblicherweise bestehen ERD-Diagramme aus drei Hauptkomponenten, und zwar aus Entitäten, Attributen und Beziehungen.
+
+    \begin{itemize}
+        \item Entitäten: Eine Entität repräsentiert eine Klasse von Objekten, die bestimmte Eigenschaften oder Attribute gemeinsam haben. Ein Beispiel für eine Entität wäre zum Beispiel ein Kunde der als Attribute einen Namen und eine Wohnadresse hat. Entitäten werden meistens als Rechtecke dargestellt
+        \item Attribute: Attribute sind die Eigenschaften, die die Entitäten beschreiben, wie beispielsweise der Name eines Kunden oder die Menge eines Produkts. Attribute werden meistens durch Ellipsen dargestellt können aber auch in der Entität selbst drinnen stehen.
+        \item Beziehungen: Beziehungen beschreiben die Art und Weise, wie Entitäten miteinander in Verbindung stehen. 
+        Man unterscheidet zwischen drei Arten von Beziehungen. Die erste ist One-to-One.  Diese Beziehung tritt auf, wenn jeder Datensatz in der ersten Tabelle nur einen entsprechenden Datensatz in der zweiten Tabelle hat und umgekehrt. Ein Beispiel dazu wäre eine Person und sein Reisepass, denn jede Person hat nur einen Reisepass und ein Reisepass gehört nur zu einer Person.
+        Die zweite Art ist One-to-Many. Diese Beziehung tritt auf, wenn ein Datensatz in der ersten Tabelle mehrere Datensätze in der zweiten Tabelle hat. Ein Beispiel dafür ist eine Mutter die mehrere Kinder hat, aber jedes Kind hat nur eine leibliche Mutter.
+        Die Letzte Art von Beziehung ist Many-to-Many.Diese Beziehung tritt auf, wenn ein Datensatz in der ersten Tabelle mehrere Datensätze in der zweiten Tabelle hat, aber auch umgekehrt. Ein Beispiel für diese Beziehung ist ein Student der mehrere Kurse hat und ein Kurs der mehrere Studenten hat.
+
+        \end{itemize}
+
+        \pagebreak
+
+    \subsection{Verwendung des Entity Relationship Diagrams in der Diplomarbeit}
+
+    Um eine funktionierende Datenbank für das Backend zu gewährleisten wurde in Zusammenarbeit mit den Mitgliedern vom Projekt AberGym  mithilfe eines ERDs eine Datenbankstruktur erstellt die sowohl für die Anforderungen von AberGym als auch für die Anforderungen von AberGymMobile angepasst.
