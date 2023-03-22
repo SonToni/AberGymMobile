@@ -1,0 +1,225 @@
+\section{Temporäres Backend für die Mobile Anwendung}
+\setauthor{Antonio Peric}
+
+\subsection{IntelliJ Projekt}
+\setauthor{Antonio Peric} 
+In der vorliegenden Arbeit wurde ein temporäres Backend mithilfe der Technologieumgebung IntelliJ und der Programmiersprache Java entwickelt. Bei der Umsetzung wurde besonderes Augenmerk auf eine präzise Definition der einzelnen Entitäten, eine klare Setzung der Attribute sowie eine sorgfältige Pflege der Beziehungen zwischen den Entitäten gelegt.
+\newline
+\newline
+Zu Beginn des Entwicklungsprozesses wurde die Funktionalität des temporären Backends genau spezifiziert und in mehrere Entitäten aufgeteilt. Anschließend wurden für jede Entität ihre Eigenschaften und Attribute definiert, um eine klare Struktur und einheitliche Verarbeitung innerhalb des Systems zu gewährleisten.
+\newline
+\newline
+Im weiteren Verlauf der Entwicklung wurden die Beziehungen zwischen den einzelnen Entitäten gepflegt und mit Hilfe von Referenzschlüsseln miteinander verknüpft. Hierbei wurde darauf geachtet, dass die Verknüpfungen korrekt und eindeutig sind, um eine reibungslose Funktionalität des temporären Backends zu gewährleisten.
+\newline
+\newline
+Zusammenfassend lässt sich feststellen, dass das temporäre Backend erfolgreich unter Verwendung der Technologieumgebung IntelliJ und der Programmiersprache Java entwickelt wurde. Durch eine präzise Definition der Entitäten, eine klare Setzung der Attribute und eine sorgfältige Pflege der Beziehungen zwischen den Entitäten konnte eine hohe Qualität und Zuverlässigkeit des Systems erreicht werden.
+\newpage
+\begin{lstlisting}[language=Java,caption=Entity | Person,label=lst:impl:foo]
+    @Entity
+    public class Exercise {
+        //Attributes
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private long id;
+        @Column
+        public String name;
+        @Column(name = "muscle_group")
+        public String muscleGroup;
+        //Navigation
+        @OneToMany(mappedBy = "exercise", fetch = FetchType.EAGER)
+        public Set<WorkoutExercise> workoutExcersices = new HashSet<>();
+    }
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,caption=Entity | Trainee,label=lst:impl:foo]
+    @Entity
+    public class Trainee extends Person{
+        //Navigation
+        @OneToMany(mappedBy = "trainee", fetch = FetchType.EAGER)
+        public Set<Workoutplan> workoutPlanList = new HashSet<>();
+    }
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,caption=Entity | Trainer,label=lst:impl:foo]
+    @Entity
+    public class Trainer extends Person{
+        //Navigation
+        @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER)
+        public List<Template> templateList;
+    }
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,caption=Entity | Template,label=lst:impl:foo]
+    @Entity
+    public class Template {
+        //Attributes
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private long id;
+        @Column
+        public String name;
+        //Navigation
+        @ManyToOne
+        @JoinColumn(name="trainer_id", nullable=false)
+        public Trainer trainer;
+    
+        @ManyToMany(fetch = FetchType.EAGER)
+        @JoinTable(
+                name = "Template_Exercise", // name of the association table
+                joinColumns = @JoinColumn(name = "template_id"), // foreign key columns
+                inverseJoinColumns = @JoinColumn(name = "exercise_id"))
+        private Set<Exercise> exercise = new HashSet<>();
+    }
+\end{lstlisting}
+\newpage
+\begin{lstlisting}[language=Java,caption=Entity | Workoutplan,label=lst:impl:foo]
+    @Entity
+    public class Workoutplan {
+        //Attributes
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private long id;
+        @Column
+        public String name;
+        //Navigation
+        @ManyToOne
+        @JoinColumn(name="trainee_id", nullable=false)
+        public Trainee trainee;
+        @OneToMany(mappedBy = "workoutplan", fetch = FetchType.EAGER)
+        public Set<WorkoutExercise> workoutExcersices = new HashSet<>();
+    }
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,caption=Entity | WorkoutExersice,label=lst:impl:foo]
+    @Entity
+    public class WorkoutExercise {
+        //Attributes 
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private long id;    
+        @Column
+        public Integer sets;    
+        @Column
+        public Double weight;    
+        @Column
+        public Integer reps;    
+        @Column
+        public Double time;    
+        //Navigation   
+        @ManyToOne
+        @JoinColumn(name="workoutplan_id", nullable=false)
+        public Workoutplan workoutplan;   
+        @ManyToOne
+        @JoinColumn(name="exercise_id", nullable=false)
+        public Exercise exercise;
+    }
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,caption=Entity | Exersice,label=lst:impl:foo]
+    @Entity
+    public class Exercise {
+        //Attributes
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private long id;  
+        @Column
+        public String name;
+        @Column(name = "muscle_group")
+        public String muscleGroup;
+        //Navigation
+        @OneToMany(mappedBy = "exercise", fetch = FetchType.EAGER)
+        public Set<WorkoutExercise> workoutExcersices = new HashSet<>();
+    }
+    
+\end{lstlisting}
+
+\newpage
+\subsection{Packages des IntelliJ Projekts}
+\setauthor{Antonio Peric}  
+
+\begin{lstlisting}[language=XML,caption=Dependency | reactive-mysql-client,label=lst:impl:foo]
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-reactive-mysql-client</artifactId>
+    </dependency>
+\end{lstlisting}
+
+Das Package "quarkus-reactive-mysql-client" ist eine Abhängigkeit, die von der Software-Entwicklungsumgebung IntelliJ bereitgestellt wird. Diese Abhängigkeit wird für die Verbindung zu einer MySQL-Datenbank verwendet und ermöglicht es, auf eine reaktive Weise auf die Datenbank zuzugreifen.
+\newline
+\newline
+Das Package basiert auf dem Quarkus-Framework, welches für die Entwicklung von Java-basierten Anwendungen verwendet wird. Es ermöglicht eine schnelle und effiziente Entwicklung von Microservices und bietet dabei eine hohe Flexibilität in der Wahl der verwendeten Technologien.
+\newline
+\newline
+Die Verwendung des "quarkus-reactive-mysql-client"-Packages bietet eine Vielzahl von Vorteilen. Durch die Verwendung von Reactive-Streams können Daten asynchron verarbeitet werden, was zu einer besseren Skalierbarkeit und Leistung der Anwendung führt. Darüber hinaus ermöglicht es die Verwendung von SQL-Abfragen, um auf die Daten in der MySQL-Datenbank zuzugreifen und diese zu manipulieren.
+
+\begin{lstlisting}[language=XML,caption=Dependency | smallrye-openapi,label=lst:impl:foo]
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-openapi</artifactId>
+    </dependency>
+\end{lstlisting}
+
+Das oben genannte Package "quarkus-smallrye-openapi" ist eine Abhängigkeit, die von der Software-Entwicklungsumgebung IntelliJ bereitgestellt wird. Diese Abhängigkeit wird für die Generierung von OpenAPI-Dokumentationen in einer Quarkus-basierten Anwendung verwendet.
+\newline
+\newline
+Das Package basiert auf dem Quarkus-Framework, welches für die Entwicklung von Java-basierten Anwendungen verwendet wird. Es ermöglicht eine schnelle und effiziente Entwicklung von Microservices und bietet dabei eine hohe Flexibilität in der Wahl der verwendeten Technologien.
+\newpage
+Die Verwendung des "quarkus-smallrye-openapi"-Packages bietet eine Vielzahl von Vorteilen. Es erleichtert die Dokumentation von APIs und bietet eine automatisierte Möglichkeit, eine OpenAPI-Dokumentation zu generieren. Dadurch können Entwicklerinnen und Entwickler schnell und einfach eine Dokumentation erstellen, die es anderen Entwicklerinnen und Entwicklern erleichtert, die API zu verstehen und zu verwenden.
+\newline
+\newline
+Darüber hinaus ermöglicht das Package die Verwendung von Annotations, um die API-Endpunkte und deren Parameter zu dokumentieren. Dies erleichtert die Integration mit anderen Tools wie Swagger UI, um die API-Dokumentationen zu visualisieren.
+
+\begin{lstlisting}[language=XML,caption=Dependency | jdbc-mysql,label=lst:impl:foo]
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-mysql</artifactId>
+    </dependency>
+\end{lstlisting}
+
+"quarkus-jdbc-mysql" ist eine Abhängigkeit, die von der Software-Entwicklungsumgebung IntelliJ bereitgestellt wird. Diese Abhängigkeit wird verwendet, um eine Verbindung zu einer MySQL-Datenbank herzustellen und ermöglicht es, auf eine standardmäßige Weise auf die Datenbank zuzugreifen.
+\newline
+\newline
+Das Package basiert auf dem Quarkus-Framework, welches für die Entwicklung von Java-basierten Anwendungen verwendet wird. Es bietet dabei eine hohe Flexibilität in der Wahl der verwendeten Technologien und ermöglicht eine schnelle und effiziente Entwicklung von Microservices.
+\newline
+\newline
+Die Verwendung des "quarkus-jdbc-mysql"-Packages bietet eine Vielzahl von Vorteilen. Es ermöglicht die Verwendung von JDBC, um auf die Daten in der MySQL-Datenbank zuzugreifen und diese zu manipulieren. Darüber hinaus bietet es eine standardmäßige Möglichkeit, eine Verbindung zur Datenbank herzustellen und Abfragen auszuführen.
+
+\newpage
+\begin{lstlisting}[language=XML,caption=Dependency | hibernate-orm-panache,label=lst:impl:foo]
+    <dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-hibernate-orm-panache</artifactId>
+    <version>2.9.2.Final</version>
+</dependency>
+\end{lstlisting}
+
+Dieses Package "quarkus-hibernate-orm-panache" ist eine Abhängigkeit, die von der Software-Entwicklungsumgebung IntelliJ bereitgestellt wird. Dieses Package basiert auf dem Quarkus-Framework und bietet eine Implementierung des Hibernate Object Relational Mapping (ORM) mit Panache, einem vereinfachten und ausdrucksstarken Ansatz für die Datenbankanbindung in Java-basierten Anwendungen.
+\newline
+\newline
+Die Verwendung des "quarkus-hibernate-orm-panache"-Packages bietet eine Vielzahl von Vorteilen. Es ermöglicht die einfache Verbindung mit einer Datenbank, indem es eine Abstraktionsschicht bereitstellt, die es ermöglicht, Datenbankabfragen in einer vereinfachten Weise zu formulieren. Durch die Verwendung von Panache-Entitäten können die Entwickler schnell und einfach die Verbindung mit der Datenbank herstellen und CRUD-Operationen (Create, Read, Update, Delete) durchführen.
+\newline
+\newline
+Das Package bietet auch eine einfache Möglichkeit, um effektiv mit der Datenbank zu arbeiten und sichere und zuverlässige Abfragen zu formulieren. Durch die Verwendung von Annotationen können Entitäten schnell und einfach definiert und mit den Tabellen in der Datenbank verbunden werden.
+
+\newpage
+\begin{lstlisting}[language=XML,caption=Dependency | lombok,label=lst:impl:foo]
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+\end{lstlisting}
+
+Das Package "lombok" ist eine Abhängigkeit, die von der Software-Entwicklungsumgebung IntelliJ bereitgestellt wird. Diese Abhängigkeit ermöglicht es, boilerplate-Code in Java-Anwendungen zu reduzieren und die Entwicklungszeit zu verkürzen.
+\newline
+Das Package basiert auf dem Prinzip der Annotationen und bietet eine Vielzahl von Annotationen, die verwendet werden können, um wiederkehrende Aufgaben wie das Erstellen von Getter- und Setter-Methoden oder das Implementieren von Equals- und Hashcode-Methoden automatisch zu erledigen.
+\newline
+Die Verwendung des "lombok"-Packages bietet eine Vielzahl von Vorteilen. Zum einen reduziert es den Codeumfang und erhöht dadurch die Lesbarkeit und Wartbarkeit der Anwendung. Zum anderen verkürzt es die Entwicklungszeit, da der Entwickler sich nicht um das Schreiben von boilerplate-Code kümmern muss und sich stattdessen auf die Implementierung der tatsächlichen Funktionalität konzentrieren kann.
+
+\subsection{Docker-MySql Datenbank}
+\setauthor{Antonio Peric}  
+
+\subsection{Demodaten für den Entwicklungsprozess der Mobile Anwendung}
+\setauthor{Antonio Peric}  
+
+\section{Integration des echten Backends}
+\setauthor{Antonio Peric} 

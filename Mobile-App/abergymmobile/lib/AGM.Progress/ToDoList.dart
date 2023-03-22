@@ -179,15 +179,8 @@ class _ToDoListState extends State<ToDoList> {
               color: const Color.fromARGB(255, 25, 68, 85),
             )
           : BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                colors: [
-                  Colors.lightBlue[900]!,
-                  Colors.lightBlue[500]!,
-                  Colors.lightBlue[200]!,
-                ],
-              ),
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(15.0),
+              color: lightblue,
             ),
       child: Column(
         children: [

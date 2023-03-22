@@ -32,8 +32,8 @@ class _SqlTableState extends State<SqlTable> {
   Future<void> getWorkoutPlan() async {
     var result;
     final conn = await MySQLConnection.createConnection(
-      host: '192.168.8.153',
-      //host: '172.17.219.81',
+      //host: '192.168.8.153',
+      host: '172.29.16.1',
       port: 3306,
       userName: 'root',
       password: 'abergymmobile_kp',
