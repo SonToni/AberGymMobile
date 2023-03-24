@@ -3,7 +3,7 @@
 
 \subsection{IntelliJ Projekt}
 \setauthor{Antonio Peric} 
-In der vorliegenden Arbeit wurde ein temporäres Backend mithilfe der Technologieumgebung IntelliJ und der Programmiersprache Java entwickelt. Bei der Umsetzung wurde besonderes Augenmerk auf eine präzise Definition der einzelnen Entitäten, eine klare Setzung der Attribute sowie eine sorgfältige Pflege der Beziehungen zwischen den Entitäten gelegt.
+In der vorliegenden Arbeit wurde ein temporäres Backend mithilfe der Technologieumgebung IntelliJ \cite{Quarkus} und der Programmiersprache Java  \cite{Java} entwickelt. Bei der Umsetzung wurde besonderes Augenmerk auf eine präzise Definition der einzelnen Entitäten, eine klare Setzung der Attribute sowie eine sorgfältige Pflege der Beziehungen zwischen den Entitäten gelegt.
 \newline
 \newline
 Zu Beginn des Entwicklungsprozesses wurde die Funktionalität des temporären Backends genau spezifiziert und in mehrere Entitäten aufgeteilt. Anschließend wurden für jede Entität ihre Eigenschaften und Attribute definiert, um eine klare Struktur und einheitliche Verarbeitung innerhalb des Systems zu gewährleisten.
@@ -144,7 +144,7 @@ Zusammenfassend lässt sich feststellen, dass das temporäre Backend erfolgreich
     </dependency>
 \end{lstlisting}
 
-Das Package "quarkus-reactive-mysql-client" ist eine Abhängigkeit, die von der Software-Entwicklungsumgebung IntelliJ bereitgestellt wird. Diese Abhängigkeit wird für die Verbindung zu einer MySQL-Datenbank verwendet und ermöglicht es, auf eine reaktive Weise auf die Datenbank zuzugreifen.
+Das Package "quarkus-reactive-mysql-client" \cite{VertxMySQL} ist eine Abhängigkeit, die von der Software-Entwicklungsumgebung IntelliJ bereitgestellt wird. Diese Abhängigkeit wird für die Verbindung zu einer MySQL-Datenbank verwendet und ermöglicht es, auf eine reaktive Weise auf die Datenbank zuzugreifen.
 \newline
 \newline
 Das Package basiert auf dem Quarkus-Framework, welches für die Entwicklung von Java-basierten Anwendungen verwendet wird. Es ermöglicht eine schnelle und effiziente Entwicklung von Microservices und bietet dabei eine hohe Flexibilität in der Wahl der verwendeten Technologien.
@@ -159,7 +159,7 @@ Die Verwendung des "quarkus-reactive-mysql-client"-Packages bietet eine Vielzahl
     </dependency>
 \end{lstlisting}
 
-Das oben genannte Package "quarkus-smallrye-openapi" ist eine Abhängigkeit, die von der Software-Entwicklungsumgebung IntelliJ bereitgestellt wird. Diese Abhängigkeit wird für die Generierung von OpenAPI-Dokumentationen in einer Quarkus-basierten Anwendung verwendet.
+Das oben genannte Package "quarkus-smallrye-openapi" \cite{SmallRye} ist eine Abhängigkeit, die von der Software-Entwicklungsumgebung IntelliJ bereitgestellt wird. Diese Abhängigkeit wird für die Generierung von OpenAPI-Dokumentationen in einer Quarkus-basierten Anwendung verwendet.
 \newline
 \newline
 Das Package basiert auf dem Quarkus-Framework, welches für die Entwicklung von Java-basierten Anwendungen verwendet wird. Es ermöglicht eine schnelle und effiziente Entwicklung von Microservices und bietet dabei eine hohe Flexibilität in der Wahl der verwendeten Technologien.
@@ -176,7 +176,7 @@ Darüber hinaus ermöglicht das Package die Verwendung von Annotations, um die A
     </dependency>
 \end{lstlisting}
 
-"quarkus-jdbc-mysql" ist eine Abhängigkeit, die von der Software-Entwicklungsumgebung IntelliJ bereitgestellt wird. Diese Abhängigkeit wird verwendet, um eine Verbindung zu einer MySQL-Datenbank herzustellen und ermöglicht es, auf eine standardmäßige Weise auf die Datenbank zuzugreifen.
+"quarkus-jdbc-mysql" \cite{QuarkusDataSource} ist eine Abhängigkeit, die von der Software-Entwicklungsumgebung IntelliJ bereitgestellt wird. Diese Abhängigkeit wird verwendet, um eine Verbindung zu einer MySQL-Datenbank herzustellen und ermöglicht es, auf eine standardmäßige Weise auf die Datenbank zuzugreifen.
 \newline
 \newline
 Das Package basiert auf dem Quarkus-Framework, welches für die Entwicklung von Java-basierten Anwendungen verwendet wird. Es bietet dabei eine hohe Flexibilität in der Wahl der verwendeten Technologien und ermöglicht eine schnelle und effiziente Entwicklung von Microservices.
@@ -193,7 +193,7 @@ Die Verwendung des "quarkus-jdbc-mysql"-Packages bietet eine Vielzahl von Vortei
 </dependency>
 \end{lstlisting}
 
-Dieses Package "quarkus-hibernate-orm-panache" ist eine Abhängigkeit, die von der Software-Entwicklungsumgebung IntelliJ bereitgestellt wird. Dieses Package basiert auf dem Quarkus-Framework und bietet eine Implementierung des Hibernate Object Relational Mapping (ORM) mit Panache, einem vereinfachten und ausdrucksstarken Ansatz für die Datenbankanbindung in Java-basierten Anwendungen.
+Dieses Package "quarkus-hibernate-orm-panache" \cite{QuarkusHibernate} ist eine Abhängigkeit, die von der Software-Entwicklungsumgebung IntelliJ bereitgestellt wird. Dieses Package basiert auf dem Quarkus-Framework und bietet eine Implementierung des Hibernate Object Relational Mapping (ORM) mit Panache, einem vereinfachten und ausdrucksstarken Ansatz für die Datenbankanbindung in Java-basierten Anwendungen.
 \newline
 \newline
 Die Verwendung des "quarkus-hibernate-orm-panache"-Packages bietet eine Vielzahl von Vorteilen. Es ermöglicht die einfache Verbindung mit einer Datenbank, indem es eine Abstraktionsschicht bereitstellt, die es ermöglicht, Datenbankabfragen in einer vereinfachten Weise zu formulieren. Durch die Verwendung von Panache-Entitäten können die Entwickler schnell und einfach die Verbindung mit der Datenbank herstellen und CRUD-Operationen (Create, Read, Update, Delete) durchführen.
@@ -221,7 +221,7 @@ Die Verwendung des "lombok"-Packages bietet eine Vielzahl von Vorteilen. Zum ein
 \subsection{MySql Datenbank}
 \setauthor{Antonio Peric}  
 
-MySQL ist eine relationale Datenbank, die als Open-Source-System für die Verwaltung und Speicherung von Daten eingesetzt wird. Sie ist besonders für Webanwendungen und Online-Datenbanken geeignet und bietet eine breite Palette von Funktionen.
+MySQL \cite{MySQL} ist eine relationale Datenbank, die als Open-Source-System für die Verwaltung und Speicherung von Daten eingesetzt wird. Sie ist besonders für Webanwendungen und Online-Datenbanken geeignet und bietet eine breite Palette von Funktionen.
 \newline
 \newline
 Zu den Vorteilen von MySQL gehört, dass es kostenlos und einfach zu verwenden ist. Es kann auf verschiedenen Betriebssystemen wie Windows, Linux und MacOS betrieben werden und ist sehr flexibel und skalierbar. Die Datenbank kann schnell und einfach installiert und eingerichtet werden und bietet eine Vielzahl von Funktionen für die effiziente Verwaltung von Daten. MySQL ist auch sehr zuverlässig und bietet eine hohe Performance. Es unterstützt mehrere gleichzeitige Verbindungen und kann daher von vielen Benutzern gleichzeitig genutzt werden.
@@ -239,7 +239,7 @@ Zu den Nachteilen von MySQL gehört, dass es einige Einschränkungen bei der Ska
     docker run --name abergymmobile -p 3306:3306 -e MYSQL_ROOT_PASSWORD=abergymmobile_kp -d mysql:latest
 \end{lstlisting}
 
-Der Befehl "docker run" ist ein Befehl der Containerisierungstechnologie Docker, mit dem ein neuer Container gestartet werden kann. Der Parameter "--name" ermöglicht es dem Benutzer, dem Container einen eindeutigen Namen zu geben. Im vorliegenden Beispiel wird der Container "abergymmobile" genannt.
+Der Befehl "docker run" ist ein Befehl der Containerisierungstechnologie Docker, mit dem ein neuer Container gestartet werden kann. Der Parameter "--name" ermöglicht es dem Benutzer, dem Container einen eindeutigen Namen zu geben. Im vorliegenden Beispiel wird der Container "abergymmobile" genannt \cite{MySQLDocker}.
 \newline
 \newline
 Der Parameter "-p" gibt an, dass der Container auf dem Host-Port 3306 gehostet wird. Der Host-Port wird auf den Container-Port 3306 weitergeleitet. Dies ist notwendig, um auf den MySQL-Server innerhalb des Containers zugreifen zu können.
@@ -293,7 +293,7 @@ Die Verknüpfung dieser Entities ermöglicht es dem Trainingsplan-Verwaltungssys
     #quarkus.hibernate-orm.sql-load-script=import.sql
 \end{lstlisting}
 
-Dieser Code zeigt die Konfigurationsdatei des Trainingsplan-Verwaltungssystems. Die Konfigurationsdatei legt die Einstellungen und Parameter fest, die das System beeinflussen. Die ersten beiden Einträge definieren den Pfad und die Verfügbarkeit der Swagger-UI, die eine grafische Benutzeroberfläche bietet, um das System zu testen und zu dokumentieren.
+Dieser Code zeigt die Konfigurationsdatei \cite{QuarkusHibernateORM} des Trainingsplan-Verwaltungssystems. Die Konfigurationsdatei legt die Einstellungen und Parameter fest, die das System beeinflussen. Die ersten beiden Einträge definieren den Pfad und die Verfügbarkeit der Swagger-UI, die eine grafische Benutzeroberfläche bietet, um das System zu testen und zu dokumentieren.
 \newline
 \newline
 Die nächsten Einträge definieren die Verbindung zu einer MySQL-Datenbank. Der Befehl "quarkus.datasource.db-kind" gibt an, welcher Typ von Datenbank verwendet wird, in diesem Fall MySQL. "quarkus.datasource.username" und "quarkus.datasource.password" legen die Anmeldeinformationen für den Zugriff auf die Datenbank fest. "quarkus.datasource.jdbc.url" gibt die URL an, unter der die Datenbank erreichbar ist.
@@ -310,7 +310,7 @@ Die Konfigurationsdatei ist ein wichtiger Bestandteil des Trainingsplan-Verwaltu
 \subsection{Demodaten für den Entwicklungsprozess der Mobile Anwendung}
 \setauthor{Antonio Peric}  
 
-Der Befehl "INSERT INTO" ist ein grundlegender SQL-Befehl, der verwendet wird, um neue Datensätze in eine Datenbanktabelle einzufügen. Mit diesem Befehl können Daten in eine Tabelle eingefügt werden, indem der Befehl "VALUES" verwendet wird, um die Werte für die einzelnen Spalten anzugeben.
+Der Befehl "INSERT INTO" ist ein grundlegender SQL-Befehl \cite{SQLInsert}, der verwendet wird, um neue Datensätze in eine Datenbanktabelle einzufügen. Mit diesem Befehl können Daten in eine Tabelle eingefügt werden, indem der Befehl "VALUES" verwendet wird, um die Werte für die einzelnen Spalten anzugeben.
 \newline
 \newline
 Die Syntax des Befehls "INSERT INTO" lautet wie folgt:
@@ -429,7 +429,7 @@ Der letzte Teil des Codes fügt die einzelnen Übungen mit den entsprechenden Se
 \setauthor{Antonio Peric} 
 
 \subsection{LeoCloud}
-LeoCloud ist ein Kubernetes Cluster, der von der HTBLA Leonding betrieben wird und Schülern zur Verfügung steht. Kubernetes ist eine Container-Orchestrierungsplattform, die es Entwicklern ermöglicht, Containeranwendungen effizient zu erstellen, zu verwalten und zu skalieren. LeoCloud stellt Schülern eine Umgebung zur Verfügung, um praktische Erfahrungen mit der Container-Technologie und der Entwicklung von Cloud-Anwendungen zu sammeln.
+LeoCloud \cite{CanonicalApplication} ist ein Kubernetes Cluster \cite{KubernetesCluster}, der von der HTBLA Leonding betrieben wird und Schülern zur Verfügung steht. Kubernetes ist eine Container-Orchestrierungsplattform, die es Entwicklern ermöglicht, Containeranwendungen effizient zu erstellen, zu verwalten und zu skalieren. LeoCloud stellt Schülern eine Umgebung zur Verfügung, um praktische Erfahrungen mit der Container-Technologie und der Entwicklung von Cloud-Anwendungen zu sammeln.
 \newline
 \newline
 Das Backend des Projekts AberGym-Syp wird auf LeoCloud gehostet, was den Entwicklern eine zuverlässige und skalierbare Plattform bietet, um die Anwendung bereitzustellen. Die Nutzung von Kubernetes ermöglicht eine automatisierte Skalierung von Ressourcen, die die Anforderungen der Anwendung erfüllen. So kann die Leistungsfähigkeit des Backends bei Bedarf erhöht werden, ohne manuelle Eingriffe von Seiten des Entwicklers.
