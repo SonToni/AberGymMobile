@@ -1,20 +1,21 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, library_private_types_in_public_api
 
-import 'package:abergymmobile/AGM.Home/Bodies/HomePage.dart';
-import 'package:abergymmobile/AGM.Home/Bodies/SecondPage.dart';
+import 'package:abergymmobile/AGM.Home/Bodies/StatisticPage.dart';
 import 'package:flutter/material.dart';
+import 'package:abergymmobile/AGM.Home/Bodies/SecondPage.dart';
+import 'package:abergymmobile/AGM.Home/Bodies/HomePage.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class Layout extends StatefulWidget {
-  const Layout({super.key});
+  const Layout({Key? key}) : super(key: key);
 
   @override
-  State<Layout> createState() => _LayoutState();
+  _LayoutState createState() => _LayoutState();
 }
 
 class _LayoutState extends State<Layout> {
-  final bodies = [const SecondPage(), const HomePage()];
+  final bodies = [const SecondPage(), const HomePage(), const StatisticPage()];
   int currentIndex = 1;
   Color lightblue = const Color.fromARGB(255, 42, 195, 255);
   Color darkgrey = const Color.fromRGBO(37, 37, 50, 1);
@@ -23,58 +24,47 @@ class _LayoutState extends State<Layout> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: bodies[currentIndex],
-      bottomNavigationBar: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
-            child: GNav(
-              curve: Curves.easeOutSine,
-              color: darkgrey,
-              gap: 8,
-              iconSize: 25,
-              activeColor: lightblue,
-              tabBackgroundColor: darkgrey.withOpacity(0.8),
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-              duration: const Duration(milliseconds: 500),
-              tabs: [
-                GButton(
-                  icon: Icons.fitness_center,
-                  text: "Letzter Trainingsplan",
-                  textStyle: GoogleFonts.montserrat(
-                    color: lightblue,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                GButton(
-                  icon: Icons.fitness_center,
-                  text: "Heutiger Trainingsplan",
-                  textStyle: GoogleFonts.montserrat(
-                    color: lightblue,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-              selectedIndex: currentIndex,
-              onTabChange: (index) {
-                setState(() {
-                  currentIndex = index;
-                });
-              },
-            ),
-          ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 2,
-              color: darkgrey,
-            ),
-          ),
+      bottomNavigationBar: CurvedNavigationBar(
+        index: currentIndex,
+        backgroundColor: Colors.lightBlue[400]!,
+        color: Colors.white,
+        buttonBackgroundColor: lightblue,
+        height: 60,
+        items: <Widget>[
+          _buildCurvedButton(Icons.history, ""),
+          _buildCurvedButton(Icons.fitness_center, ""),
+          _buildCurvedButton(Icons.show_chart, ""),
         ],
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
       ),
+    );
+  }
+
+  Widget _buildCurvedButton(IconData icon, String text) {
+    /*return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          icon,
+          color: darkgrey,
+        ),
+        Text(
+          text,
+          style: GoogleFonts.montserrat(
+            color: darkgrey,
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );*/
+    return Icon(
+      icon,
+      color: darkgrey,
     );
   }
 }

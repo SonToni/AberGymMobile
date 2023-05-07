@@ -29,7 +29,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
           Padding(
             padding: const EdgeInsets.only(top: 250, bottom: 10),
             child: Text(
-              "Wollen Sie an diesen Workoutplan Änderungen vornehmen?",
+              "Sie haben Ihren Trainingsplan erfolgreich abegschlossen!",
               style: GoogleFonts.montserrat(
                 color: Colors.white,
                 fontSize: 25,
@@ -41,109 +41,48 @@ class _FinishWorkoutState extends State<FinishWorkout> {
         ),
         Container(
           padding: const EdgeInsets.all(5.0),
-          child: Table(
-            children: [
-              TableRow(
-                children: [
-                  FadeAnimation(
-                    1.3,
-                    Center(
-                      child: GestureDetector(
-                        onTap: () async {
-                          final prefs = await SharedPreferences.getInstance();
-                          for (int i = 0; i < amountrows; i++) {
-                            prefs.remove('finishedExcersice_$i');
-                          }
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              duration: const Duration(
-                                milliseconds: 500,
-                              ),
-                              child: const Layout(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          height: 50,
-                          margin: const EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              colors: [
-                                Colors.lightBlue[800]!,
-                                Colors.lightBlue[400]!,
-                              ],
-                            ),
-                            color: Colors.lightBlue,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Nein",
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
+          child: FadeAnimation(
+            1.3,
+            Center(
+              child: GestureDetector(
+                onTap: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  for (int i = 0; i < amountrows; i++) {
+                    prefs.remove('finishedExcersice_$i');
+                  }
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.fade,
+                      duration: const Duration(
+                        milliseconds: 500,
+                      ),
+                      child: const Layout(),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: 50,
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.lightBlue,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Zur Übersicht zurückkehren",
+                        style: GoogleFonts.montserrat(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                  FadeAnimation(
-                    1.3,
-                    Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.bottomToTop,
-                              duration: const Duration(
-                                milliseconds: 350,
-                              ),
-                              child: const Layout(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          height: 50,
-                          margin: const EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              colors: [
-                                Colors.lightBlue[800]!,
-                                Colors.lightBlue[400]!,
-                              ],
-                            ),
-                            color: Colors.lightBlue,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Ja",
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ],
+            ),
           ),
         ),
       ],

@@ -1,7 +1,6 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_build_context_synchronously
 
 import 'package:abergymmobile/AGM.Common/WelcomeSplash.dart';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mysql_client/mysql_client.dart';
@@ -9,7 +8,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class QRCodePage extends StatefulWidget {
-  const QRCodePage({super.key});
+  const QRCodePage({Key? key}) : super(key: key);
 
   @override
   State<QRCodePage> createState() => _QRCodePageState();
@@ -24,7 +23,7 @@ class _QRCodePageState extends State<QRCodePage> {
   QRViewController? controller;
   bool logintrue = false;
   String name = "";
-  bool _shouldNavigate = false;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +59,11 @@ class _QRCodePageState extends State<QRCodePage> {
           children: [
             !showScanRect
                 ? AlertDialog(
-                    title: Text('Wie loggen Sie sich ein?',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.getFont('Montserrat')),
+                    title: Text(
+                      'Wie loggen Sie sich ein?',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.getFont('Montserrat'),
+                    ),
                     content: Image.asset('assets/images/qrcode.gif'),
                     actions: [
                       GestureDetector(
@@ -71,14 +72,14 @@ class _QRCodePageState extends State<QRCodePage> {
                             width: 300,
                             height: 50,
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 42, 195, 255),
+                              color: lightblue,
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Okey',
+                                  'Okay',
                                   style: GoogleFonts.montserrat(
                                     fontSize: 18,
                                     color: Colors.white,
@@ -97,10 +98,17 @@ class _QRCodePageState extends State<QRCodePage> {
                       ),
                     ],
                   )
-                : SizedBox(
-                    height: 400,
-                    width: double.infinity,
-                    child: _buildQrView(context),
+                : Expanded(
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        _buildQrView(context),
+                        if (isLoading)
+                          CircularProgressIndicator(
+                            color: lightblue,
+                          ),
+                      ],
+                    ),
                   ),
           ],
         ),
@@ -113,7 +121,6 @@ class _QRCodePageState extends State<QRCodePage> {
             MediaQuery.of(context).size.height < 400)
         ? 150.0
         : 250.0;
-
     return QRView(
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
@@ -131,22 +138,17 @@ class _QRCodePageState extends State<QRCodePage> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        isLoading = true;
         checkUser(result?.code);
       });
-      if (_shouldNavigate) {
-        controller.dispose();
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => WelcomeSplashPage(name)));
-      }
     });
   }
 
   Future<void> checkUser(String? qrCardId) async {
     IResultSet result;
-
     final conn = await MySQLConnection.createConnection(
-      //host: '192.168.8.153',
-      host: '172.29.16.1',
+      host: '192.168.8.153',
+      //host: '172.18.48.1',
       port: 3306,
       userName: 'root',
       password: 'abergymmobile_kp',
@@ -160,26 +162,35 @@ class _QRCodePageState extends State<QRCodePage> {
     );
 
     for (final row in result.rows) {
-      setState(
-        () {
-          String? firstName = "";
-          String? lastName = "";
-          firstName = row.colAt(0);
-          lastName = row.colAt(1);
-          name = "$firstName $lastName";
-        },
-      );
+      setState(() {
+        String? firstName = "";
+        String? lastName = "";
+        firstName = row.colAt(0);
+        lastName = row.colAt(1);
+        name = "$firstName $lastName";
+      });
     }
     final prefs = await SharedPreferences.getInstance();
-    if (name.isEmpty == false) {
+    if (name.isNotEmpty) {
       setState(() {
-        _shouldNavigate = true;
         logintrue = true;
         prefs.setBool('login', logintrue);
         prefs.setString('key', name);
       });
+      isLoading = false;
+      controller?.pauseCamera();
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => WelcomeSplashPage(name)));
+    } else {
+      isLoading = false;
     }
 
     await conn.close();
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 }

@@ -11,14 +11,80 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   debugDefaultTargetPlatformOverride = null;
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: LoginPage(),
+    home: Login(),
   ));
 }
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class Login extends StatelessWidget {
+  Login({super.key});
+
+  final Color lightBlue900 = Colors.lightBlue[900]!;
+  final Color lightBlue800 = Colors.lightBlue[800]!;
+  final Color lightBlue400 = Colors.lightBlue[400]!;
+  final Color whiteColor = Colors.white;
+  final TextStyle montserratBold = GoogleFonts.montserrat(
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+  );
+  final TextStyle montserratNormal = GoogleFonts.montserrat(
+    color: Colors.white,
+    fontSize: 23,
+  );
+  final double sizedBoxHeight = 20.0;
+
+  Widget _buildGestureDetector(
+      String title, IconData icon, Widget page, BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => page,
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              var begin = const Offset(1.0, 0.0);
+              var end = Offset.zero;
+              var curve = Curves.ease;
+
+              var tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+              var offsetAnimation = animation.drive(tween);
+
+              return SlideTransition(
+                position: offsetAnimation,
+                child: child,
+              );
+            },
+          ),
+        );
+      },
+      child: Container(
+        height: 50,
+        margin: const EdgeInsets.symmetric(horizontal: 20),
+        decoration: BoxDecoration(
+          color: Colors.lightBlue,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: whiteColor,
+              size: 20,
+            ),
+            const SizedBox(width: 10),
+            Text(
+              title,
+              style: montserratBold,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +94,7 @@ class LoginPage extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
-            colors: [
-              Colors.lightBlue[900]!,
-              Colors.lightBlue[800]!,
-              Colors.lightBlue[400]!,
-            ],
+            colors: [lightBlue900, lightBlue800, lightBlue400],
           ),
         ),
         child: Column(
@@ -51,7 +113,7 @@ class LoginPage extends StatelessWidget {
                         Text(
                           "AberGym",
                           style: GoogleFonts.montserrat(
-                            color: Colors.white,
+                            color: whiteColor,
                             fontSize: 50,
                             fontWeight: FontWeight.bold,
                           ),
@@ -76,23 +138,20 @@ class LoginPage extends StatelessWidget {
                     1.3,
                     Text(
                       "Willkommen zurück!",
-                      style: GoogleFonts.montserrat(
-                        color: Colors.white,
-                        fontSize: 23,
-                      ),
+                      style: montserratNormal,
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: sizedBoxHeight),
             Expanded(
               child: FadeAnimation(
                 1.4,
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    color: whiteColor,
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(60),
                       topRight: Radius.circular(60),
                     ),
@@ -115,102 +174,24 @@ class LoginPage extends StatelessWidget {
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: sizedBoxHeight),
                           FadeAnimation(
                             1.6,
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const QRCodePage(),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                height: 50,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.centerLeft,
-                                    colors: [
-                                      Colors.lightBlue[900]!,
-                                      Colors.lightBlue[800]!,
-                                      Colors.lightBlue[400]!,
-                                    ],
-                                  ),
-                                  color: Colors.lightBlue,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.camera_alt,
-                                      color: Colors.white,
-                                      size: 20,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      "Einloggen per QR-Code",
-                                      style: GoogleFonts.montserrat(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                            _buildGestureDetector(
+                              "Einloggen per QR-Code",
+                              Icons.camera_alt,
+                              const QRCodePage(),
+                              context,
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: sizedBoxHeight),
                           FadeAnimation(
                             1.7,
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const NFC(),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                height: 50,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    colors: [
-                                      Colors.lightBlue[900]!,
-                                      Colors.lightBlue[800]!,
-                                      Colors.lightBlue[400]!,
-                                    ],
-                                  ),
-                                  color: Colors.lightBlue,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.nfc,
-                                      color: Colors.white,
-                                      size: 20,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      "Einloggen per NFC",
-                                      style: GoogleFonts.montserrat(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                            _buildGestureDetector(
+                              "Einloggen per NFC",
+                              Icons.nfc,
+                              const NFC(),
+                              context,
                             ),
                           ),
                         ],

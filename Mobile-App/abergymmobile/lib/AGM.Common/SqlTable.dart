@@ -32,8 +32,8 @@ class _SqlTableState extends State<SqlTable> {
   Future<void> getWorkoutPlan() async {
     var result;
     final conn = await MySQLConnection.createConnection(
-      //host: '192.168.8.153',
-      host: '172.29.16.1',
+      host: '192.168.8.153',
+      //host: '172.18.48.1',
       port: 3306,
       userName: 'root',
       password: 'abergymmobile_kp',
@@ -83,6 +83,19 @@ class _SqlTableState extends State<SqlTable> {
     super.initState();
     getWorkoutPlan().then((value) {});
     getName();
+  }
+
+  Widget buildTableText(String text) {
+    return Center(
+      child: Text(
+        text,
+        textScaleFactor: fontPixelsRows,
+        style: GoogleFonts.montserrat(
+          color: Colors.white,
+          fontSize: fontSizeRows,
+        ),
+      ),
+    );
   }
 
   @override
@@ -180,42 +193,15 @@ class _SqlTableState extends State<SqlTable> {
                           children: [
                             TableRow(
                               children: [
-                                Center(
-                                  child: Text(
-                                    (wesets.isNotEmpty
-                                        ? 'Sätze: ${wesets[i].toString()}'
-                                        : ""),
-                                    textScaleFactor: fontPixelsRows,
-                                    style: GoogleFonts.montserrat(
-                                      color: Colors.white,
-                                      fontSize: fontSizeRows,
-                                    ),
-                                  ),
-                                ),
-                                Center(
-                                  child: Text(
-                                    (wereps.isNotEmpty
-                                        ? 'Wdh: ${wereps[i].toString()}'
-                                        : ""),
-                                    textScaleFactor: fontPixelsRows,
-                                    style: GoogleFonts.montserrat(
-                                      color: Colors.white,
-                                      fontSize: fontSizeRows,
-                                    ),
-                                  ),
-                                ),
-                                Center(
-                                  child: Text(
-                                    (weweight.isNotEmpty
-                                        ? 'Kg: ${weweight[i].toString()}'
-                                        : ""),
-                                    textScaleFactor: fontPixelsRows,
-                                    style: GoogleFonts.montserrat(
-                                      color: Colors.white,
-                                      fontSize: fontSizeRows,
-                                    ),
-                                  ),
-                                ),
+                                buildTableText(wesets.isNotEmpty
+                                    ? 'Sätze: ${wesets[i]}'
+                                    : ""),
+                                buildTableText(wereps.isNotEmpty
+                                    ? 'Wdh: ${wereps[i]}'
+                                    : ""),
+                                buildTableText(weweight.isNotEmpty
+                                    ? 'Kg: ${weweight[i]}'
+                                    : ""),
                               ],
                             ),
                           ],

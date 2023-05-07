@@ -23,6 +23,8 @@ dependencies:
   google_fonts: ^4.0.3
   google_nav_bar: ^5.0.6
   nfc_manager: ^3.2.0
+  fl_chart: ^0.62.0
+  curved_navigation_bar: ^1.0.3
 
 flutter_native_splash:
   image: assets/images/icon.png

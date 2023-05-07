@@ -1,7 +1,6 @@
 // ignore_for_file: file_names, use_build_context_synchronously
 
 import 'package:abergymmobile/AGM.Animations/FadeAnimation.dart';
-import 'package:abergymmobile/AGM.Home/Layout.dart';
 import 'package:abergymmobile/AGM.Progress/Finish.dart';
 import 'package:abergymmobile/AGM.Progress/SetCounter.dart';
 import 'package:abergymmobile/AGM.Update/UpdateExcersice.dart';
