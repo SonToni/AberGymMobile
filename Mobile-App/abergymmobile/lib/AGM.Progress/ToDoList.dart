@@ -212,22 +212,34 @@ class _ToDoListState extends State<ToDoList> {
                           ? 'Sätze: ${wesets[i].toString()}'
                           : ""),
                       textScaleFactor: 1.5,
-                      style: GoogleFonts.montserrat(
-                        fontSize: 11,
-                        color: darkgrey,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: isFinished
+                          ? GoogleFonts.montserrat(
+                              fontSize: 11,
+                              color: darkgrey,
+                              fontWeight: FontWeight.bold,
+                            )
+                          : GoogleFonts.montserrat(
+                              fontSize: 11,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                     ),
                   ),
                   Center(
                     child: Text(
                       (wereps.isNotEmpty ? 'Wdh: ${wereps[i].toString()}' : ""),
                       textScaleFactor: 1.5,
-                      style: GoogleFonts.montserrat(
-                        fontSize: 11,
-                        color: darkgrey,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: isFinished
+                          ? GoogleFonts.montserrat(
+                              fontSize: 11,
+                              color: darkgrey,
+                              fontWeight: FontWeight.bold,
+                            )
+                          : GoogleFonts.montserrat(
+                              fontSize: 11,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                     ),
                   ),
                   Center(
@@ -236,11 +248,17 @@ class _ToDoListState extends State<ToDoList> {
                           ? 'Kg: ${weweight[i].toString()}'
                           : ""),
                       textScaleFactor: 1.5,
-                      style: GoogleFonts.montserrat(
-                        fontSize: 11,
-                        color: darkgrey,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: isFinished
+                          ? GoogleFonts.montserrat(
+                              fontSize: 11,
+                              color: darkgrey,
+                              fontWeight: FontWeight.bold,
+                            )
+                          : GoogleFonts.montserrat(
+                              fontSize: 11,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                     ),
                   ),
                 ],

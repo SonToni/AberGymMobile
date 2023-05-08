@@ -186,14 +186,7 @@ class _SetCounterState extends State<SetCounter> {
                   width: 300.0,
                   height: 300.0,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      colors: [
-                        Colors.lightBlue[900]!,
-                        Colors.lightBlue[800]!,
-                        Colors.lightBlue[400]!,
-                      ],
-                    ),
+                    color: const Color(0xff020227).withOpacity(0.3),
                     shape: BoxShape.circle,
                   ),
                   child: Column(
@@ -233,14 +226,7 @@ class _SetCounterState extends State<SetCounter> {
                   width: 300.0,
                   height: 300.0,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      colors: [
-                        Colors.lightBlue[900]!,
-                        Colors.lightBlue[800]!,
-                        Colors.lightBlue[400]!,
-                      ],
-                    ),
+                    color: const Color(0xff020227).withOpacity(0.3),
                     shape: BoxShape.circle,
                   ),
                   child: Column(
