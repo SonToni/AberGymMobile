@@ -25,6 +25,7 @@ dependencies:
   nfc_manager: ^3.2.0
   fl_chart: ^0.62.0
   curved_navigation_bar: ^1.0.3
+  flutter_rating_bar: ^4.0.0
 
 flutter_native_splash:
   image: assets/images/icon.png

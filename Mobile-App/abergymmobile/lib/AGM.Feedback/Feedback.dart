@@ -1,112 +1,94 @@
-// ignore_for_file: use_build_context_synchronously, no_logic_in_create_state, must_be_immutable, file_names
-
 import 'package:abergymmobile/AGM.Animations/FadeAnimation.dart';
-import 'package:abergymmobile/AGM.Feedback/Feedback.dart';
 import 'package:abergymmobile/AGM.Home/Layout.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class FinishWorkout extends StatefulWidget {
-  late int amountrows;
-  FinishWorkout({super.key, required this.amountrows});
+class FeedbackForm extends StatefulWidget {
+  const FeedbackForm({Key? key}) : super(key: key);
 
   @override
-  State<FinishWorkout> createState() => _FinishWorkoutState(amountrows);
+  _FeedbackFormState createState() => _FeedbackFormState();
 }
 
-class _FinishWorkoutState extends State<FinishWorkout> {
+class _FeedbackFormState extends State<FeedbackForm> {
+  double _rating = 0;
+  final TextEditingController _commentController = TextEditingController();
   final Color lightblue = const Color.fromARGB(255, 42, 195, 255);
-  int amountrows = 0;
-  _FinishWorkoutState(this.amountrows);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        FadeAnimation(
-          1.2,
-          Padding(
-            padding: const EdgeInsets.only(top: 100, bottom: 100),
-            child: Text(
-              "Sie haben Ihren Trainingsplan erfolgreich abegschlossen!",
-              style: GoogleFonts.montserrat(
-                color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            colors: [
+              Colors.lightBlue[900]!,
+              Colors.lightBlue[800]!,
+              Colors.lightBlue[400]!,
+            ],
           ),
         ),
-        FadeAnimation(
-          1.2,
-          Padding(
-            padding: const EdgeInsets.only(bottom: 50),
-            child: Text(
-              "Wollen Sie diesem Trainingsplan noch Feedback geben?",
-              style: GoogleFonts.montserrat(
-                color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 100),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Bewertung:',
+                style: GoogleFonts.montserrat(
+                    fontSize: 40,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
               ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(5.0),
-          child: FadeAnimation(
-            1.3,
-            Center(
-              child: Row(
+              RatingBar.builder(
+                initialRating: 0,
+                minRating: 1,
+                maxRating: 5,
+                direction: Axis.horizontal,
+                allowHalfRating: false,
+                itemCount: 5,
+                itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                itemSize: 70,
+                itemBuilder: (context, _) => const Icon(Icons.star,
+                    color: Color.fromARGB(255, 255, 191, 0)),
+                onRatingUpdate: (rating) {
+                  setState(() {
+                    _rating = rating;
+                  });
+                },
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                child: TextField(
+                  controller: _commentController,
+                  maxLines: 5,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    labelText: 'Kommentar hinzufügen',
+                    labelStyle: GoogleFonts.montserrat(
+                        color: Colors.white, fontSize: 25),
+                    hintText: 'Geben Sie hier Ihren Kommentar ein',
+                    hintStyle: GoogleFonts.montserrat(color: Colors.grey),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: const BorderSide(),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 50),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      final prefs = await SharedPreferences.getInstance();
-                      for (int i = 0; i < amountrows; i++) {
-                        prefs.remove('finishedExcersice_$i');
-                      }
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.fade,
-                          duration: const Duration(
-                            milliseconds: 500,
-                          ),
-                          child: const FeedbackForm(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      height: 60,
-                      width: 150,
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.lightBlue,
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Colors.white, width: 2),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Ja",
-                          style: GoogleFonts.montserrat(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      final prefs = await SharedPreferences.getInstance();
-                      for (int i = 0; i < amountrows; i++) {
-                        prefs.remove('finishedExcersice_$i');
-                      }
                       Navigator.push(
                         context,
                         PageTransition(
@@ -129,10 +111,44 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                       ),
                       child: Center(
                         child: Text(
-                          "Nein",
+                          "Speichern",
                           style: GoogleFonts.montserrat(
                             color: Colors.white,
-                            fontSize: 25,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          duration: const Duration(
+                            milliseconds: 500,
+                          ),
+                          child: const Layout(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      height: 60,
+                      width: 150,
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                      decoration: BoxDecoration(
+                        color: Colors.lightBlue,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Abbrechen",
+                          style: GoogleFonts.montserrat(
+                            color: Colors.white,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -141,10 +157,10 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                   ),
                 ],
               ),
-            ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }

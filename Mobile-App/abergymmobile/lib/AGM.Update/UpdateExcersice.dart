@@ -72,7 +72,7 @@ class _UpdateExcersiceState extends State<UpdateExcersice> {
   Future<void> saveInputInCache() async {
     if (_sets.isNotEmpty || _kg.isNotEmpty || _reps.isNotEmpty) {
       final conn = await MySQLConnection.createConnection(
-        host: '192.168.8.153',
+        host: '192.168.0.5',
         //host: '172.18.48.1',
         port: 3306,
         userName: 'root',

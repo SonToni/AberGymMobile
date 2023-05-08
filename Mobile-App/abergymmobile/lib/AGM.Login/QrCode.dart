@@ -147,7 +147,7 @@ class _QRCodePageState extends State<QRCodePage> {
   Future<void> checkUser(String? qrCardId) async {
     IResultSet result;
     final conn = await MySQLConnection.createConnection(
-      host: '192.168.8.153',
+      host: '192.168.0.5',
       //host: '172.18.48.1',
       port: 3306,
       userName: 'root',
